@@ -98,3 +98,46 @@ export default config;
     }
   };
 
+--
+-- Estructura de tabla para la tabla `api_auteurs`
+--
+
+CREATE TABLE `api_auteurs` (
+  `id_auteur` bigint(21) NOT NULL,
+  `nom` text NOT NULL DEFAULT '',
+  `bio` text NOT NULL DEFAULT '',
+  `email` tinytext NOT NULL DEFAULT '',
+  `nom_site` tinytext NOT NULL DEFAULT '',
+  `url_site` text NOT NULL DEFAULT '',
+  `login` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `pass` tinytext NOT NULL DEFAULT '',
+  `low_sec` tinytext NOT NULL DEFAULT '',
+  `statut` varchar(255) NOT NULL DEFAULT '0',
+  `webmestre` varchar(3) NOT NULL DEFAULT 'non',
+  `maj` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `pgp` text NOT NULL DEFAULT '',
+  `htpass` tinytext NOT NULL DEFAULT '',
+  `en_ligne` datetime NOT NULL DEFAULT '2024-01-01 01:01:01',
+  `alea_actuel` tinytext DEFAULT NULL,
+  `alea_futur` tinytext DEFAULT NULL,
+  `prefs` text DEFAULT NULL,
+  `cookie_oubli` tinytext DEFAULT NULL,
+  `source` varchar(10) NOT NULL DEFAULT 'spip',
+  `lang` varchar(10) NOT NULL DEFAULT '',
+  `imessage` varchar(3) NOT NULL DEFAULT '',
+  `tipo` enum('Aspirante','Administrador','Docente','Admitido') NOT NULL,
+  `entidad` varchar(8) NOT NULL DEFAULT 'cb_1',
+  `id_rol` enum('1','2','3','4','5') NOT NULL,
+  `status` enum('Activo','Inactivo') NOT NULL DEFAULT 'Activo',
+  `clave` varchar(255) NOT NULL,
+  `tipoEntrevista` varchar(45) NOT NULL,
+  `id_aspirante` bigint(21) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+--
+-- Datos para la tabla `api_auteurs`
+--
+
+INSERT INTO `api_auteurs` (`id_auteur`, `nom`, `bio`, `email`, `nom_site`, `url_site`, `login`, `pass`, `low_sec`, `statut`, `webmestre`, `maj`, `pgp`, `htpass`, `en_ligne`, `alea_actuel`, `alea_futur`, `prefs`, `cookie_oubli`, `source`, `lang`, `imessage`, `tipo`, `entidad`, `id_rol`, `status`, `clave`, `tipoEntrevista`, `id_aspirante`) VALUES
+(1, 'evaluasoft', '', 'evaluasoft@gmail.com', '', '', 'C07B51296CED3DCA0356FB4F36B19B07696B8041D2E64A561F0E68F67C77F237', 'cf1e56c48044cc9daa88052a7ae8ea183dcbc7e1718e16401b7298571a774151', '', '0minirezo', 'non', '2025-08-06 20:39:03', '', '$1$YotSntng$Hj8FVrzeEdGDNQwFl4mu9/', '2025-08-06 15:39:03', '2220794496893bd67e06b87.22256236', '12268945846893bd67e0a363.82051712', '0minirezo', '3921839146845b1cdce3b38.02989916', 'spip', 'es', 'oui', 'Administrador', 'cb_1', '', 'Activo', '51793c7af7043d16ae275694ce39c9070b878f8651211aa2197f06cc1fa86680', '', NULL),
+
