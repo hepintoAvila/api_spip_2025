@@ -38,3 +38,40 @@ Acceso a los datos: La API proporcionará acceso a los datos de la base de datos
 Flexibilidad: La API permitirá la integración con otras aplicaciones y servicios.
 Escalabilidad: La API estará diseñada para escalar según las necesidades de la aplicación.
 
+### Envio de las variables desde el frontend:
+
+En el siguiente funcion se envia los datos a la api del SPIP
+### Nota: la url debe apuntar a: 
+### url: "https://www.tu-hosting/api_spip_2025/apiv1/?"
+ 
+  const send = async (data: any) => {
+    try {
+      
+      const response = await fetch(`${config.API_URL}${url}`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+           Authorization: `Basic ${btoa(`${config.X_SICES_API_USER}:${config.X_SICES_API_PASS}`)}`,
+	        'X-SICES-API-USER': btoa(`${config.X_SICES_API_USER}`),
+	        'X-SICES-API-Apikey': btoa(`${config.X_SICES_API_APIKEY_USER}`),
+	        'X-SICES-API-ApiToken': btoa(`${config.X_SICES_API_APITOKEN_USER}`),
+          'Content-Type': 'application/json',
+        },
+      });
+	    if (!response.ok) {
+        throw new Error(ErrorCodeMessages[response.status] || 'Unknown error');
+      }
+	 
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+         return response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(`La respuesta no es JSON válida: ${text}`);
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
