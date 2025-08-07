@@ -45,7 +45,6 @@ En el siguiente funcion se envia los datos a la api del SPIP
 ### url: "https://www.tu-hosting/api_spip_2025/apiv1/?"
 
 
-```markdown
  const config = {
 	 
     API_URL_WEB: "https://www.tu-hosting/api_spip_2025/",
@@ -68,7 +67,7 @@ En el siguiente funcion se envia los datos a la api del SPIP
 
 export default config;
 
-```markdown
+
  const send = async (data: any) => {
     try {
       
@@ -105,6 +104,7 @@ export default config;
 --
 
 ```markdown
+
 CREATE TABLE `api_auteurs` (
   `id_auteur` bigint(21) NOT NULL,
   `nom` text NOT NULL DEFAULT '',
@@ -141,7 +141,7 @@ CREATE TABLE `api_auteurs` (
 -- Datos para la tabla `api_auteurs`
 --
 
-```markdown
+
 INSERT INTO `api_auteurs` (`id_auteur`, `nom`, `bio`, `email`, `nom_site`, `url_site`, `login`, `pass`, `low_sec`, `statut`, `webmestre`, `maj`, `pgp`, `htpass`, `en_ligne`, `alea_actuel`, `alea_futur`, `prefs`, `cookie_oubli`, `source`, `lang`, `imessage`, `tipo`, `entidad`, `id_rol`, `status`, `clave`, `tipoEntrevista`, `id_aspirante`) VALUES
 (1, 'evaluasoft', '', 'evaluasoft@gmail.com', '', '', 'C07B51296CED3DCA0356FB4F36B19B07696B8041D2E64A561F0E68F67C77F237', 'cf1e56c48044cc9daa88052a7ae8ea183dcbc7e1718e16401b7298571a774151', '', '0minirezo', 'non', '2025-08-06 20:39:03', '', '$1$YotSntng$Hj8FVrzeEdGDNQwFl4mu9/', '2025-08-06 15:39:03', '2220794496893bd67e06b87.22256236', '12268945846893bd67e0a363.82051712', '0minirezo', '3921839146845b1cdce3b38.02989916', 'spip', 'es', 'oui', 'Administrador', 'cb_1', '', 'Activo', '51793c7af7043d16ae275694ce39c9070b878f8651211aa2197f06cc1fa86680', '', NULL),
 
