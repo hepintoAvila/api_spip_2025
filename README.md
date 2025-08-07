@@ -43,7 +43,30 @@ Escalabilidad: La API estará diseñada para escalar según las necesidades de l
 En el siguiente funcion se envia los datos a la api del SPIP
 ### Nota: la url debe apuntar a: 
 ### url: "https://www.tu-hosting/api_spip_2025/apiv1/?"
- 
+
+
+ const config = {
+	 
+    API_URL_WEB: "https://www.tu-hosting/api_spip_2025/",
+    API_URL: "https://www.tu-hosting/api_spip_2025/api2024/apiv1/?",
+   // API_URL: "https://www.tu-hosting/api_spip_2025/api2024/plugins-dist/api2025/?",
+	API_URL_AUTH : '/dashboard/tarjetas', 
+	API_ACCION_AUTH  :  'auteur', 
+	API_OPCION_AUTH  : 'login', 
+	API_ACCION_ROLES:'roles',
+	API_ACCION_USUARIOS:'usuarios',
+
+	X_SICES_API_APIKEY:'zHqroBk5BILvT9Bdajol1A==::snR8ET+DxazKVH5Ywxx1Fg==',
+	X_SICES_API_APITOKEN:'f37ef65fbc641054a3b508af0b52220916ff40eefa9a0a722b4d69cda96ef064',
+
+	X_SICES_API_APIKEY_USER:'U9YbCFRmbhm9GjlHTAuKvgipgvku1ljhR9YbTkpMNtXmhMa/tsvlZS2eCOtGqe94vNJ+QDtM23pRQxRytrZR3TtXyPbozsxT4q0E/z/hY5o=::1hFXGPLErNPJxf8FuXdeLA==',
+	X_SICES_API_APITOKEN_USER:'1eddeff45f94f4ab39b8c1f0ee840ed296b606608c3af799787f2dafa9e64320',
+	X_SICES_API_USER:'X_SICES_API_USER un usuario especial de la tabla api_auteurs',
+	X_SICES_API_PASS:'X_SICES_API_PASS el pass del usuario especial de la tabla api_auteurs',
+};
+
+export default config;
+
   const send = async (data: any) => {
     try {
       
