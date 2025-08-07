@@ -1,8 +1,8 @@
-# ApiSena
+# API SPIP 2025
 
 La siguiente documentación proporciona una guía detallada para implementar una API en SPIP utilizando PHP y MySQL. A continuación, se presenta una descripción general de cómo implementar la API:
 
-### 'Requisitos'
+### Requisitos
 
 SPIP (Système de Publication pour l'Internet Partagé)
 PHP 7.x o superior
