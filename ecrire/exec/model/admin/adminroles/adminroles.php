@@ -9,15 +9,7 @@
  *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
@@ -28,24 +20,17 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		include_spip('inc/json');
 		include_spip('exec/model/apis/claseapi');
 		include_spip('exec/model/admin/adminroles/rolService');
-		include_spip('exec/model/classAuthenticator');
- 
-		
-				$session_login = _request('var_login');
-				$session_password = _request('password');
+		 
+		$login = $GLOBALS['visiteur_session']['login'];
+		include_spip('inc/auth');
+		$var_auth = auth_informer_login($login);
+		 
 				try {
-					$login = $GLOBALS['visiteur_session']['login'];
-				  $authenticator = new Authenticator($session_login, $session_password);
-				  $var_auth = $authenticator->authenticate();
-					$data = json_decode($_POST['data'], true);
-					if (json_last_error() !== JSON_ERROR_NONE) {
-					die(json_encode([
-						'status' => 'error',
-						'code' => 400,
-						'message' => 'Formato JSON inválido'
-						]));
-						}
-				$opcion = isset($_GET['opcion']) ? base64_decode($_GET['opcion']) : base64_decode($_POST['opcion']);
+				$variables = json_decode(urldecode($_GET['variables']), true);
+				$opcion = base64_decode($variables['opcion']);
+				$array =$variables['data'];				
+				$data = json_decode($array, true);
+				 	
 				//INSTANCIAS INVOLUNCRADAS
 				$appRoles=new Apis('apis_roles');
 				$appAudi=new Apis('apis_auditoria');
@@ -56,7 +41,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 				$chartic=array();
 						 
 			} catch (Exception $e) {
-				$records['data'] = array('status'=>'401','error'=>$e->getMessage());  
+				$records['data'] = array('status'=>401,'error'=>$e->getMessage());  
 				echo json_encode($records);
 				exit;
 			}
@@ -110,27 +95,27 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 					sql_delete("apis_roles","idRol=" . intval($data['idRol']));
 					$resultado =$app_rolService->consultaRoles();
-					$var = var2js($resultado); 	
+					$var = var2js(array('status'=>200,'type'=>'success','data'=>array('Roles'=>$resultado),'message'=>'Listado de Roles')); 	
 					echo $var;				
 			break;
 			case 'add_roles':
-					$chartic=array('tipo'=>$data['Rol']);
-					$appRoles->guardarDatos($chartic);	
-					$resultado =$app_rolService->consultaRoles();
-					$var = var2js($resultado); 	
+					$chartic=array('tipo'=>$data['rol']);
+					$appRoles->guardarDatos($chartic);
+					$resultado =$app_rolService->consultaRoles();					
+					$var = var2js(array('status'=>200,'type'=>'success','data'=>array('Roles'=>$resultado),'message'=>'Listado de Roles')); 	
 					echo $var;					
 			break;
 			case 'editar_roles':
 					
-					$chartic=array('tipo'=>$data['Rol']);
+					$chartic=array('tipo'=>$data['rol']);
 					$appRoles->actualizarDatos($chartic,'idRol',$data['idRol']);				
 					$resultado =$app_rolService->consultaRoles();
-					$var = var2js($resultado); 	
+					$var = var2js(array('status'=>200,'type'=>'success','data'=>array('Roles'=>$resultado),'message'=>'Listado de Roles')); 
 					echo $var;				
 			break;
 			case 'consulta_roles':
 					$resultado =$app_rolService->consultaRoles();
-					$var = var2js($resultado); 	
+					$var = var2js(array('status'=>200,'type'=>'success','data'=>array('Roles'=>$resultado),'message'=>'Listado de Roles')); 	
 					echo $var;											
 					 	
 			 break;			

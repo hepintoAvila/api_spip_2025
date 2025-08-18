@@ -3,7 +3,7 @@
 /*
  * ecran_securite.php
  * ------------------
- */ 
+ */
 
 define('_ECRAN_SECURITE', '1.4.1'); // 2021-03-12
 

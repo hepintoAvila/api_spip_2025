@@ -3,15 +3,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 } 
 		include_spip('exec/model/apis/claseapi');
-	/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 	
+		
 class RolService {
   private $apis;
   private $autorizaciones;

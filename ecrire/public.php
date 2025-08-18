@@ -20,15 +20,150 @@
 // (cette distinction est obsolete a present, on la garde provisoirement
 // par souci de compatiilite).
 
+
+/*
+ * Documentation : https://www.spip.net/fr_article4200.html
+ */
+
+
 if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 	
 	echo recuperer_fond($fond, $contexte_inclus, array(), _request('connect'));
 
 } else {
-
+ 
+	
 	$GLOBALS['_INC_PUBLIC'] = 1;
 	define('_PIPELINE_SUFFIX', test_espace_prive() ? '_prive' : '');
+		/*
+		 * Échappement xss referer
+		 */
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			$_SERVER['HTTP_REFERER'] = strtr($_SERVER['HTTP_REFERER'], '<>"\'', '[]##');
+		}
 
+
+		/*
+		 * Echappement HTTP_X_FORWARDED_HOST
+		 */
+		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+			$_SERVER['HTTP_X_FORWARDED_HOST'] = strtr($_SERVER['HTTP_X_FORWARDED_HOST'], "<>?\"\{\}\$'` \r\n", '____________');
+		}
+		 
+			$__request = array_merge($_POST, $_GET);
+			$res = array();
+			// Validación de seguridad
+			$campos = array('exec', 'accion', 'opcion', '_SPIP_PAGE', 'action', 'var_ajax');
+			$valido = true;
+			foreach ($campos as $campo) {
+				if (!isset($__request[$campo])) {
+					$res[] = $campo;
+					$valido = false;
+					break;
+				}
+				// Si el valor parece ser una cadena Base64, decodificarla
+				if (preg_match(',^[a-zA-Z0-9+/=]+$,', $__request[$campo])) {
+					$decoded_value = base64_decode($__request[$campo], true);
+					if ($decoded_value === false) {
+						$res[] = $campo;
+						$valido = false;
+						break;
+					}
+				} else {
+					// Validar el formato del valor
+					if (!preg_match(',^[\w-]+$,', $__request[$campo])) {
+						$res[] = $campo;
+						$valido = false;
+						break;
+					}
+				}
+			}
+			// Verificar si se activó la seguridad
+			if (!$valido) {
+				$records['data'] = array(
+					'status' => 400,
+					'menssage' => 'Solicitud inválida',
+					'error' => 'ECRAN_SECURITE activado'
+				);
+				echo json_encode($records);
+				return;
+			}
+ 
+	/**
+	 * Version simplifiée de https://developer.wordpress.org/reference/functions/is_serialized/
+	 */
+	if (!function_exists('__ecran_test_if_serialized')) {
+		function __ecran_test_if_serialized($data) {
+			$data = trim($data);
+			if ('N;' === $data) {return true;}
+			if (strlen($data) < 4) {return false;}
+			if (':' !== $data[1]) {return false;}
+			$semicolon = strpos($data, ';');
+			$brace = strpos($data, '}');
+			// Either ; or } must exist.
+			if (false === $semicolon && false === $brace) {return false;}
+			// But neither must be in the first X characters.
+			if (false !== $semicolon && $semicolon < 3) {return false;}
+			if (false !== $brace && $brace < 4) {return false;}
+			$token = $data[0];
+			if (in_array($token, array('s', 'S', 'a', 'O', 'C', 'o', 'E'))) {
+				if (in_array($token, array('s', 'S')) and false === strpos($data, '"')) {return false;}
+				return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
+			} elseif (in_array($token, array('b', 'i', 'd'))) {
+				return (bool)preg_match("/^{$token}:[0-9.E+-]+;/", $data);
+			}
+			return false;
+		}
+	}		
+		if (
+			 !empty($__request['var_login'])
+		) {
+			foreach ($__request as $k => $v) {
+				if (is_string($v)
+				  and strpbrk($v, "&\"'<>") !== false
+				  and preg_match(',^[abis]:\d+[:;],', $v)
+				  and __ecran_test_if_serialized($v)
+				) {
+					$__request[$k] = $_REQUEST[$k] = htmlspecialchars($v, ENT_QUOTES);
+					if (isset($_POST[$k])) $_POST[$k] = $__request[$k];
+					if (isset($_GET[$k])) $_GET[$k] = $__request[$k];
+				}
+			}
+		}
+		/*
+		 * Injection par connect [HTTP_CONNECTION] => keep-alive
+		 */
+		if (
+			isset($GLOBALS['HTTP_CONNECTION'])
+			// cas qui permettent de sortir d'un commentaire PHP
+			and (
+				strpos($GLOBALS['HTTP_CONNECTION'], "?") !== false
+				or strpos($GLOBALS['HTTP_CONNECTION'], "<") !== false
+				or strpos($GLOBALS['HTTP_CONNECTION'], ">") !== false
+				or strpos($GLOBALS['HTTP_CONNECTION'], "\n") !== false
+				or strpos($GLOBALS['HTTP_CONNECTION'], "\r") !== false
+			)
+		) {
+					$records['data'] = array(
+						'status' => 400,
+						'menssage' => 'Solicitud inválida',
+						'error' => '2.HTTP_CONNECTION activado'
+					);
+					echo json_encode($records);
+					return;
+		} 
+		/*
+		 * Réinjection des clés en html dans l'admin r19561
+		 */
+		if (
+			(isset($_SERVER['REQUEST_URI']) and strpos($_SERVER['REQUEST_URI'], "ecrire/") !== false)
+			or isset($__request['var_memotri'])
+		) {
+			$zzzz = implode("", array_keys($__request));
+			if (strlen($zzzz) != strcspn($zzzz, '<>"\'')) {
+				$ecran_securite_raison = 'Cle incorrecte en $__request';
+			}
+		}		
 	// Faut-il initialiser SPIP ? (oui dans le cas general)
 	if (!defined('_DIR_RESTREINT_ABS')) {
 		if (defined('_DIR_RESTREINT')
@@ -38,15 +173,19 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 		} else {
 			die('inc_version absent ?');
 		}
+	
 	} // $fond defini dans le fichier d'appel ?
 
 	else {
+		
 		if (isset($fond) and !_request('fond')) {
+			
 		} // fond demande dans l'url par page=xxxx ?
 		else {
+			
 			if (isset($_GET[_SPIP_PAGE])) {
 				$fond = (string)$_GET[_SPIP_PAGE];
-
+				
 				// Securite
 				if (strstr($fond, '/')
 					and !(
@@ -54,6 +193,7 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 						and include_spip('inc/autoriser')
 						and autoriser('webmestre'))
 				) {
+					
 					include_spip('inc/minipres');
 					echo minipres();
 					exit;
@@ -76,7 +216,7 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 	$tableau_des_temps = array();
 
 	// Particularites de certains squelettes
-	if ($fond == 'login') {
+	if ($fond == 'apis'||$fond == 'turnos') {
 		$forcer_lang = true;
 	}
 
@@ -93,121 +233,22 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 	// Charger l'aiguilleur des traitements derogatoires
 	// (action en base SQL, formulaires CVT, AJax)
 	if (_request('action') or _request('var_ajax') or _request('formulaire_action')) {
-		include_spip('public/aiguiller');
-		if (
-			// cas des appels actions ?action=xxx
-			traiter_appels_actions()
-			or
-			// cas des hits ajax sur les inclusions ajax
-			traiter_appels_inclusions_ajax()
-			or
-			// cas des formulaires charger/verifier/traiter
-			traiter_formulaires_dynamiques()
-		) {
-			// lancer les taches sur affichage final, comme le cron
-			// mais sans rien afficher
-			$GLOBALS['html'] = false; // ne rien afficher
-			pipeline('affichage_final' . _PIPELINE_SUFFIX, '');
-			exit; // le hit est fini !
-		}
-	}
-
-	// Il y a du texte a produire, charger le metteur en page
-	include_spip('public/assembler');
-	$page = assembler($fond, _request('connect'));
-
-	if (isset($page['status'])) {
-		include_spip('inc/headers');
-		http_status($page['status']);
-	}
-
-	// Content-Type ?
-	if (!isset($page['entetes']['Content-Type'])) {
-		$charset = isset($GLOBALS['meta']['charset']) ? $GLOBALS['meta']['charset'] : "utf-8";
-		$page['entetes']['Content-Type'] = 'text/html; charset=' . $charset;
-		$html = true;
-	} else {
-		$html = preg_match(',^\s*text/html,', $page['entetes']['Content-Type']);
-	}
-
-	// Tester si on est admin et il y a des choses supplementaires a dire
-	// type tableau pour y mettre des choses au besoin.
-	$debug = ((_request('var_mode') == 'debug') or $tableau_des_temps) ? array(1) : array();
-
-	// affiche-t-on les boutons d'administration ? voir f_admin() 
-	$affiche_boutons_admin = ($html and (
-			(isset($_COOKIE['spip_admin']) and (!isset($flag_preserver) or !$flag_preserver))
-			or ($debug and include_spip('inc/autoriser') and autoriser('debug'))
-			or (defined('_VAR_PREVIEW') and _VAR_PREVIEW)
-		));
-
-	if ($affiche_boutons_admin) {
-		include_spip('balise/formulaire_admin');
-	}
-
-
-	// Execution de la page calculee
-
-	// traitements sur les entetes avant envoi
-	// peut servir pour le plugin de stats
-	$page['entetes'] = pipeline('affichage_entetes_final' . _PIPELINE_SUFFIX, $page['entetes']);
-
-
-	// eval $page et affecte $res
-	include _ROOT_RESTREINT . "public/evaluer_page.php";
-	envoyer_entetes($page['entetes']);
-	if ($res === false) {
-		include_spip('inc/autoriser');
-		$err = _T('zbug_erreur_execution_page');
-		if (autoriser('webmestre')) {
-			$err .= "\n<hr />\n"
-				. highlight_string($page['codephp'], true)
-				. "\n<hr />\n";
-		}
-		$msg = array($err);
-		erreur_squelette($msg);
-	}
-
-	//
-	// Envoyer le resultat apres post-traitements
-	//
-	// (c'est ici qu'on fait var_recherche, validation, boutons d'admin,
-	// cf. public/assembler.php)
-	echo pipeline('affichage_final' . _PIPELINE_SUFFIX, $page['texte']);
-
-	if ($lang) {
-		lang_select();
-	}
-	// l'affichage de la page a pu lever des erreurs (inclusion manquante)
-	// il faut tester a nouveau
-	$debug = ((_request('var_mode') == 'debug') or $tableau_des_temps) ? array(1) : array();
-
-	// Appel au debusqueur en cas d'erreurs ou de demande de trace
-	// at last
-	if ($debug) {
-		// en cas d'erreur, retester l'affichage
-		if ($html and ($affiche_boutons_admin or $debug)) {
-			$var_mode_affiche = _request('var_mode_affiche');
-			$var_mode_objet = _request('var_mode_objet');
-			$GLOBALS['debug_objets'][$var_mode_affiche][$var_mode_objet . 'tout'] = ($var_mode_affiche == 'validation' ? $page['texte'] : "");
-			echo erreur_squelette(false);
-		}
-	} else {
-
-		if (isset($GLOBALS['meta']['date_prochain_postdate'])
-			and $GLOBALS['meta']['date_prochain_postdate'] <= time()
-		) {
-			include_spip('inc/rubriques');
-			calculer_prochain_postdate(true);
-		}
-
-		// Effectuer une tache de fond ?
-		// si _DIRECT_CRON_FORCE est present, on force l'appel
 		if (defined('_DIRECT_CRON_FORCE')) {
 			cron();
 		}
-
+		if ($lang) {
+				lang_select();
+		}
+		include_spip('inc/utils');
+		
+		redirige_url_ecrire($GLOBALS['_POST']['_SPIP_PAGE'], 'params=' . urlencode(json_encode($GLOBALS['_POST'])));
 		// sauver le cache chemin si necessaire
 		save_path_cache();
+		exit;
 	}
+
+/*
+ * Fin sécurité
+ */
+
 }

@@ -1,27 +1,6 @@
 <?php
-// Router.php
-/**
- * @About:      API Interface
- * @File:       Router.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/
- 
 class Router {
-    /**
-     * Arreglo de rutas
-     * @var array
-     */
     private $routes = [];
-
-    /**
-     * Agrega una nueva ruta a la lista de rutas
-     * @param string $method  Método HTTP de la ruta
-     * @param string $path    Ruta URL que se va a manejar
-     * @param callable $handler Función que se ejecutará cuando se acceda a la ruta
-     */
     public function addRoute($method, $path, $handler) {
         $this->routes[] = [
             'method' => $method,
@@ -29,39 +8,69 @@ class Router {
             'handler' => $handler
         ];
     }
-
-    /**
-     * Maneja la solicitud HTTP actual y busca una ruta coincidente en la lista de rutas
-     */
+    
+    
     public function handleRequest() {
-        // Obtiene el método HTTP actual
+ 
         $method = $_SERVER['REQUEST_METHOD'];
-
-        // Obtiene los encabezados HTTP
-        $headers = getallheaders();
-
-        // Verifica si se ha enviado un encabezado personalizado
-        $headersPosman = isset($headers['header']) ? $headers['header'] : null;
-
-        // Obtiene la ruta URL actual
-        if ($headersPosman) {
-            $path = isset($_GET['accion']) ? $_GET['accion'] : '';
-        } else {
-            $path = isset($_GET['accion']) ? base64_decode($_GET['accion']) : '';
+        if (!function_exists('getallheaders')) {
+        function getallheaders() {
+            $headers = [];
+            foreach ($_SERVER as $key => $value) {
+                if (strpos($key, 'HTTP_') === 0) {
+                    $header = str_replace('HTTP_', '', $key);
+                    $header = str_replace('_', '-', $header);
+                    $header = ucwords(strtolower($header));
+                    $headers[$header] = $value;
+                }
+            }
+                return $headers;
+            }
         }
-
-        // Busca una ruta coincidente en la lista de rutas
+        $headers = getallheaders();
+ // Obtener la acción
+		$path = null;
+		if (isset($_GET['accion'])) {
+			$path = $_GET['accion'];
+		} elseif ($method === 'POST' || $method === 'PUT' || $method === 'DELETE') {
+			$input = json_decode(file_get_contents("php://input"), true);
+			if (isset($input['accion'])) {
+				$path = $input['accion'];
+			}
+		} 
+	 // Decodificar la acción si es necesario
+		if ($path) {
+			$path = base64_decode($path, 7);
+		}		
+		 /*
+		$requestUri = $_SERVER['REQUEST_URI'];
+		$queryString = parse_url($requestUri, PHP_URL_QUERY);
+		parse_str($queryString, $params);
+		$path = isset($params['accion']) ? $params['accion'] : null;
+    
+        // Depuración
+          */
+		 /*
+        echo "Valor de \$path: $path\n";
+        echo "Valor de \$method: $method\n";
+        echo "Valor de \$headersPosman: $headersPosman\n";
+		*/
         foreach ($this->routes as $route) {
+           // echo "Ruta actual: \n";
+           // print_r($route);
+           // echo "\n";
+    
             if ($route['method'] === $method && $route['path'] === $path) {
-                // Ejecuta la función asociada a la ruta coincidente
+                //echo "Ruta encontrada: $path\n";
                 call_user_func($route['handler']);
                 return;
             }
         }
-
-        // Si no se encuentra ninguna ruta coincidente, devuelve un error 404
+    
+        // If no route matched, return 404
         header("HTTP/1.0 404 Not Found");
         echo "Acción no reconocida: '".$path."'";
+        //print_r($this->routes);
     }
 }
 ?>

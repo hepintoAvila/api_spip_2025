@@ -108,11 +108,7 @@ function redirige_par_entete($url, $equiv = '', $status = 302) {
 </head>
 <body>
 <h1>HTTP ' . $status . '</h1>
-<a href="',
-	quote_amp($url),
-	'">',
-	_T('navigateur_pas_redirige'),
-	'</a></body></html>';
+</body></html>';
 
 	spip_log("redirige $status: $url");
 
@@ -128,12 +124,10 @@ function redirige_formulaire($url, $equiv = '', $format = 'message') {
 		redirige_par_entete(str_replace('&amp;', '&', $url), $equiv);
 	} // si c'est une ancre, fixer simplement le window.location.hash
 	elseif ($format == 'ajaxform' and preg_match(',^#[0-9a-z\-_]+$,i', $url)) {
-		return array(
-			// on renvoie un lien masque qui sera traite par ajaxCallback.js
-			"<a href='$url' name='ajax_ancre' style='display:none;'>anchor</a>",
-			// et rien dans le message ok
-			''
-		);
+		return
+				// ie poste les formulaires dans une iframe, il faut donc rediriger son parent
+				""
+				. '';
 	} else {
 		// ne pas laisser passer n'importe quoi dans l'url
 		$url = str_replace(array('<', '"'), array('&lt;', '&quot;'), $url);
@@ -146,22 +140,19 @@ function redirige_formulaire($url, $equiv = '', $format = 'message') {
 		}
 		$url = str_replace('&amp;', '&', $url);
 		spip_log("redirige formulaire ajax: $url");
-		include_spip('inc/filtres');
+		 
 		if ($format == 'ajaxform') {
-			return array(
-				// on renvoie un lien masque qui sera traite par ajaxCallback.js
-				'<a href="' . quote_amp($url) . '" name="ajax_redirect"  style="display:none;">' . _T('navigateur_pas_redirige') . '</a>',
-				// et un message au cas ou
-				'<br /><a href="' . quote_amp($url) . '">' . _T('navigateur_pas_redirige') . '</a>'
-			);
+			
+			return
+				// ie poste les formulaires dans une iframe, il faut donc rediriger son parent
+				""
+				. '';
 		} else // format message texte, tout en js inline
 		{
 			return
 				// ie poste les formulaires dans une iframe, il faut donc rediriger son parent
-				"<script type='text/javascript'>if (parent.window){parent.window.document.location.replace(\"$url\");} else {document.location.replace(\"$url\");}</script>"
-				. http_img_pack('loader.svg', '', " class='loader'")
-				. '<br />'
-				. '<a href="' . quote_amp($url) . '">' . _T('navigateur_pas_redirige') . '</a>';
+				""
+				. '';
 		}
 	}
 }

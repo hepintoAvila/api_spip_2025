@@ -33,8 +33,8 @@ define('_ECRIRE_INC_VERSION', "1");
 error_reporting(E_ALL ^ E_NOTICE);
 
 /** version PHP minimum exigee (cf. inc/utils) */
-define('_PHP_MIN', '7.3.0');
 
+define('_PHP_MIN', '7.3.0');
 if (!defined('_DIR_RESTREINT_ABS')) {
 	/** le nom du repertoire ecrire/ */
 	define('_DIR_RESTREINT_ABS', 'ecrire/');
@@ -85,6 +85,7 @@ if (!defined('_NOM_TEMPORAIRES_ACCESSIBLES')) {
 	/** Nom du repertoire des fichiers Temporaires Accessibles par http:// */
 	define('_NOM_TEMPORAIRES_ACCESSIBLES', "local/");
 }
+
 if (!defined('_NOM_PERMANENTS_INACCESSIBLES')) {
 	/** Nom du repertoire des fichiers Permanents Inaccessibles par http:// */
 	define('_NOM_PERMANENTS_INACCESSIBLES', "config/");
@@ -541,10 +542,10 @@ if (!(_FILE_CONNECT
 		include_spip('inc/headers');
 		redirige_url_ecrire("install");
 	} else {
-		// Si on est dans le site public, dire que qq s'en occupe
-		include_spip('inc/minipres');
-		utiliser_langue_visiteur();
-		echo minipres(_T('info_travaux_titre'), "<p style='text-align: center;'>" . _T('info_travaux_texte') . "</p>", array('status' => 503));
+		
+		include_spip('inc/headers');
+		include _DIR_RESTREINT_ABS.'public.php';
+		//
 		exit;
 	}
 	// autrement c'est une install ad hoc (spikini...), on sait pas faire

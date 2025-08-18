@@ -53,6 +53,11 @@ $GLOBALS['liste_verrous'] = array();
  *     Ressource sur le fichier ouvert, sinon false.
  **/
 function spip_fopen_lock($fichier, $mode, $verrou) {
+	if (!file_exists($fichier) && !is_dir(dirname($fichier))) {
+        // Manejar el error, por ejemplo:
+        //trigger_error("El archivo o directorio no existe", E_USER_ERROR);
+        return false;
+    }
 	if (_SPIP_LOCK_MODE == 1) {
 		if ($fl = @fopen($fichier, $mode)) {
 			// verrou

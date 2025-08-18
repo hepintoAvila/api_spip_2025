@@ -10,15 +10,7 @@
  *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 
 
 if (!defined('_ECRIRE_INC_VERSION')) {
@@ -32,7 +24,7 @@ class PermisosService {
  
   public function getPermisos($aut) {
     if (!$this->validateAut($aut)) {
-      throw new Exception('Datos de autenticaciï¿½n incompletos');
+      throw new Exception('Datos de autenticación incompletos');
     }
     $this->aut = $aut;
     try {

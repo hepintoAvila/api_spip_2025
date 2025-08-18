@@ -9,15 +9,7 @@
  *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
@@ -34,36 +26,36 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		include_spip('inc/auth');
  
 		
-		$campos = $GLOBALS['tables_principales']['apis_roles']['field'];
-		$select = implode(',',array_keys($campos));
-		
-			$opcion = filter_input(INPUT_GET, 'opcion', FILTER_SANITIZE_STRING) ?? filter_input(INPUT_POST, 'opcion', FILTER_SANITIZE_STRING);
-			$opcion = base64_decode($opcion);
-			
-			
-			if ($opcion !== null) {
+			try {
+				$variables = json_decode(urldecode($_GET['variables']), true);
+				$opcion = base64_decode($variables['opcion']);
+				$array = isset($variables['data']) ? $variables['data'] : '';
+				$data = json_decode($array, true);
+				if (json_last_error() !== JSON_ERROR_NONE) {
+					$data = array();
+				}
+				$aut = auth_identifier_login($variables['var_login'],$variables['password']);
+ 			 
+			} catch (Exception $e) {
+				$records['data'] = array('status'=>402,'error'=>$e->getMessage());  
+				echo json_encode($records);
+				exit;
+			}
+			 
 			switch ($opcion) {
 			case 'login':
 				//validamos usuarios y contrasea var_login
-				$session_login =_request('var_login');
-				$session_password = _request('password');
-				$aut = auth_identifier_login($session_login, $session_password);
-				if($aut['statut']=='0minirezo'){
-					$statut='Administrador';
-				}else{
-					$statut=$aut['statut'];
-				}
-				 
+
 				$appk=new Apis('');
 			    $secretKey=$appk->generateSecretKey();
-				$encryptedData=$appk->encryptData($session_password, $secretKey);
+				$encryptedData=$appk->encryptData($aut['pass'], $secretKey);
 				include_spip('inc/cookie');
 				spip_setcookie('ApiSecretKey', $secretKey, [
 					'expires' => time() + 3600 * 24 * 14
 				]);
 				$Auth['Auth']= array(
 				'Nom' => $aut['nom'].'',
-				'Idsuario' => $aut['id_auteur'],
+				'IdUsuario' =>$appk->encryptData($aut['id_auteur'], $secretKey),
 				'Usuario' => $aut['login'],
 				'Email' => ($aut['status'] ?? '') === 'Activo' ? ($aut['email'] ?? '') : null,
 				'status' => $aut['status'],
@@ -82,22 +74,16 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 							if (!is_null($Auth)) {
 								//AUDITORIA
 								$appAudi=new Apis('apis_auditoria');
-								$aut = $appAudi->guardarAudi('AdminUsuarios','Usuarios','Inicio Sesion');		
+								$aut = $appAudi->guardarAudi('AdminUsuarios','Usuarios','Inicio Sesion',$aut);		
 								//FIN AUDITORIA	
-								$records = array('status'=>'202','data'=>array_merge($Auth,$Menus,$Permisos));
+								$records = array('status'=>200,'data'=>array_merge($Auth,$Menus,$Permisos));
 							}else{
-								$records['data'] = array('status'=>'404');                           
+								$records['data'] = array('status'=>402);                           
 							}
-
 							$var = var2js($records);
 							echo $var;								 					
 			break;
 		}
-	} else {
-		// Maneja el caso cuando 'accion' no esté presente en GET ni POST
-		$records['data'] = array('status'=>'404');
-		$var = var2js($records);
-		echo $var; 
-	}
+	 
 											
 ?>

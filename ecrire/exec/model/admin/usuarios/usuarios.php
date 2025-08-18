@@ -8,15 +8,7 @@
  *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
@@ -29,25 +21,16 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		include_spip('inc/autoriser');
 		include_spip('exec/model/admin/claseapi');
 		include_spip('inc/auth');
-
-				$session_login = _request('var_login');
-				$session_password = _request('password');
+				
+				$variables = json_decode(urldecode($_GET['variables']), true);
+				$opcion = base64_decode($variables['opcion']);
+				$array =$variables['data'];				
+				$data = json_decode($array, true);
 				try {
-					$login = $GLOBALS['visiteur_session']['login'];
-				  $authenticator = new Authenticator($session_login, $session_password);
-				  $var_auth = $authenticator->authenticate();
-					$data = json_decode($_POST['data'], true);
-					if (json_last_error() !== JSON_ERROR_NONE) {
-					die(json_encode([
-						'status' => 'error',
-						'code' => 400,
-						'message' => 'Formato JSON inv�lido'
-						]));
-						}
-						$campos = $GLOBALS['tables_principales']['spip_auteurs']['field'];
+					$campos = $GLOBALS['tables_principales']['spip_auteurs']['field'];
+					
 					$select = implode(',',array_keys($campos));
-					$opcion = filter_input(INPUT_GET, 'opcion', FILTER_SANITIZE_STRING) ?? filter_input(INPUT_POST, 'opcion', FILTER_SANITIZE_STRING);
-					$opcion = base64_decode($opcion);
+		 
 				//INSTANCIAS INVOLUNCRADAS
 					$camposConsulta = array(
 						'id_auteur',
@@ -92,12 +75,12 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 				$var = var2js($usuarios); 	
                 echo $var;					
 		break;
-        case 'guardar':	
-					 
+        case 'guardar':
 			$email=$data['email'];
 			$tipo=$data['tipo'];
 			$new_pass=$data['pass'];
 			$login=$data['login'];
+			
 			$options=array('tipo'=>$tipo,'entidad'=>'cb_1','clave'=>$new_pass,'login'=>$login);
 			$email = unicode2charset(utf_8_to_unicode($email), 'iso-8859-1');
 			if (!$r = email_valide($email)){
@@ -205,8 +188,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 				$campos = array('id_aspirante','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido','documento','tipo_documento','email,celular','pais','colegio','grado','discapacitado','statut','tipo');
 				
 				$records=$app_aspirantes->consultadatos('statut="Activo"',$select,$campos);	
-				$usuarios = array('data'=>array('Usuarios'=>$records));
-				$var = var2js($usuarios); 	
+				$var = var2js(array('status'=>202,'type'=>'success','data'=>array('Usuarios'=>$records))); 	
                 echo $var;	
                 break;
                 case 'delete': 

@@ -29,39 +29,54 @@ include_spip('inc/json');
 include_spip('inc/autoriser');
 include_spip('exec/model/admin/claseapi');
 include_spip('inc/auth');
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 function exec_apis_dist(){
- 		include_spip('exec/model/classAuthenticator');
-				$session_login = _request('var_login');
-				$session_password = _request('password');
+
+				$headers = getallheaders();
+				$authorization = $headers['Authorization'];
+				$auth = explode(' ', $authorization);
+				if ($auth[0] == 'Basic') {
+					$credentials = base64_decode($auth[1]);
+					list($username, $password) = explode(':', $credentials);
+
+				}
+			
+				$variables = json_decode(urldecode($_GET['variables']), true);
+				$accion = base64_decode($variables['accion']); 
+				 
+				
 				try {
-				  
-				  $login = $GLOBALS['visiteur_session']['login'];
-				  $authenticator = new Authenticator($session_login, $session_password);
-				  $var_auth = $authenticator->authenticate();
-				  $accion = filter_input(INPUT_GET, 'accion', FILTER_SANITIZE_STRING) ?? filter_input(INPUT_POST, 'accion', FILTER_SANITIZE_STRING);
-					
-					if ($accion !== null) {
-						$accion =$accion;
-					}else{
-						$accion = $_POST["params"]["opcion"];
+    				include_spip('exec/model/classAuthenticator');
+                    $authenticator = new Authenticator($username, $password);
+    				$var_auth = $authenticator->authenticate();
+					if (is_array($var_auth)) {
+						spip_setcookie('spip_session', $_COOKIE['spip_session'], [
+							'expires' => time() + 3600 * 24 * 14
+						]);
 					}
-				$accion = str_replace('%0A', '', $accion);
-				$accion = base64_decode($accion);
+					$GLOBALS['connect_id_auteur'] = $var_auth['id_auteur'];
+                	$GLOBALS['connect_login'] = $var_auth['login'];
+                	$GLOBALS['connect_statut'] = $var_auth['statut'];
+                	$GLOBALS['visiteur_session'] = array_merge((array)$GLOBALS['visiteur_session'], $var_auth);
+				    
+				
+				// creer la session au besoin
+                	if (!isset($_COOKIE['spip_session'])) {
+                		$session = charger_fonction('session', 'inc');
+                		$spip_session = $session($var_auth);
+                	}
+			    	$GLOBALS['visiteur_session'] = pipeline(
+                		'preparer_visiteur_session',
+                		array('args' => array('row' => $var_auth),
+                		'data' => $GLOBALS['visiteur_session'])
+                	);
 						 
 			} catch (Exception $e) {
-				$records['data'] = array('status'=>'401','error'=>$e->getMessage());  
+				$records['data'] = array('status'=>401,'error'=>$e->getMessage());  
 				echo json_encode($records);
 				exit;
 			}
+			 
 		switch($accion) {
 			case "roles":
 				include_spip('exec/model/admin/adminroles/adminroles');
@@ -75,6 +90,22 @@ function exec_apis_dist(){
 			case "usuarios":
 				include_spip('exec/model/admin/usuarios/usuarios');		    
 			break;
+			case "importar":
+				include_spip('exec/model/Administrador/importar/importar');	
+			break;
+			case "imagenes":
+				include_spip('exec/model/imagenes/cargar_imagenes');	
+			break;
+			case "librovisitas":
+				include_spip('exec/model/LibroVisitas/libro_visitas');	
+			break;
+			case "turnos":
+				include_spip('inc/headers');
+				//include_spip('inc/acces');
+				 
+				redirige_par_entete("turnos", 'variables=' . $variables);
+				//include_spip('exec/model/Turnos/turnos');	
+			break;	
 		}
 	 
 		

@@ -487,31 +487,37 @@ function plugin_trier($infos, $liste_non_classee) {
 			$info1 = $infos[$dir_type][$plug];
 			// si des plugins sont necessaires,
 			// on ne peut inserer qu'apres eux
-			foreach ($info1['necessite'] as $need) {
-				$nom = strtoupper($need['nom']);
-				$compat = isset($need['compatibilite']) ? $need['compatibilite'] : '';
-				if (!isset($liste[$nom]) or !plugin_version_compatible($compat, $liste[$nom]['version'])) {
-					$info1 = false;
-					break;
-				}
-			}
-			if (!$info1) {
-				continue;
-			}
-			// idem si des plugins sont utiles,
-			// sauf si ils sont de toute facon absents de la liste
-			foreach ($info1['utilise'] as $need) {
-				$nom = strtoupper($need['nom']);
-				$compat = isset($need['compatibilite']) ? $need['compatibilite'] : '';
-				if (isset($toute_la_liste[$nom])) {
-					if (!isset($liste[$nom]) or
-						!plugin_version_compatible($compat, $liste[$nom]['version'])
-					) {
-						$info1 = false;
-						break;
-					}
-				}
-			}
+// si des plugins sont necessaires,
+// on ne peut inserer qu'apres eux
+if (isset($info1['necessite'])) {
+    foreach ($info1['necessite'] as $need) {
+        $nom = strtoupper($need['nom']);
+        $compat = isset($need['compatibilite']) ? $need['compatibilite'] : '';
+        if (!isset($liste[$nom]) or !plugin_version_compatible($compat, $liste[$nom]['version'])) {
+            $info1 = false;
+            break;
+        }
+    }
+}
+if (!$info1) {
+    continue;
+}
+// idem si des plugins sont utiles,
+// sauf si ils sont de toute facon absents de la liste
+if (isset($info1['utilise'])) {
+    foreach ($info1['utilise'] as $need) {
+        $nom = strtoupper($need['nom']);
+        $compat = isset($need['compatibilite']) ? $need['compatibilite'] : '';
+        if (isset($toute_la_liste[$nom])) {
+            if (!isset($liste[$nom]) or
+                !plugin_version_compatible($compat, $liste[$nom]['version'])
+            ) {
+                $info1 = false;
+                break;
+            }
+        }
+    }
+}
 			if ($info1) {
 				$ordre[$p] = $info1;
 				$liste[$p] = $liste_non_classee[$p];

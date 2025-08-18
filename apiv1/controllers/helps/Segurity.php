@@ -1,14 +1,4 @@
 <?php
-// Segurity.php
-/**
- * @About:      API Interface
- * @File:       Segurity.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/
- 
 /**
  * Make a cURL request with given variables and authentication
  *
@@ -65,7 +55,17 @@ function obtenerPass($encryptedData,$secretKey){
     }
 function verificarPassword($password, $storedPass, $storedAlea) {
     $pass = spip_sha256($storedAlea . $password);
-    return $pass === $storedPass;
+	return $pass === $storedPass;
+}
+/**
+ * Verifica si dos valores de login son diferentes.
+ *
+ * @param string $logina Valor de login A
+ * @param string $loginb Valor de login B
+ * @return bool True si los valores son diferentes, false de lo contrario
+ */
+function loginCoincide($logina, $loginb) {
+    return $logina === $loginb;
 }
 
 /**

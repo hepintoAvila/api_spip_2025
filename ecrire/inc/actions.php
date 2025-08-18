@@ -136,8 +136,8 @@ function ajax_retour($corps, $content_type = null) {
 	) {
 		$e = erreur_squelette();
 	}
-
-	$c = $GLOBALS['meta']['charset'];
+	
+	$c = isset($GLOBALS['meta']['charset']) ? $GLOBALS['meta']['charset'] : "utf-8";
 	header('Content-Type: ' . $content_type . '; charset=' . $c);
 	$debut = (($xml and strlen(trim($corps))) ? '<' . "?xml version='1.0' encoding='" . $c . "'?" . ">\n" : '');
 	$fin = '';

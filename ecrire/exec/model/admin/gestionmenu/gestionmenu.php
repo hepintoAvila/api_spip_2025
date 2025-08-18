@@ -9,15 +9,6 @@
  *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
 
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
@@ -30,23 +21,13 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		include_spip('exec/model/apis/claseapi');
 		include_spip('exec/model/admin/adminroles/rolService');
 		include_spip('exec/model/admin/gestionmenu/MenuService');
-		include_spip('exec/model/classAuthenticator');
-		
-				$session_login = _request('var_login');
-				$session_password = _request('password');
+
 				try {
-					$login = $GLOBALS['visiteur_session']['login'];
-				  $authenticator = new Authenticator($session_login, $session_password);
-				  $var_auth = $authenticator->authenticate();
-					$data = json_decode($_POST['data'], true);
-					if (json_last_error() !== JSON_ERROR_NONE) {
-					die(json_encode([
-						'status' => 'error',
-						'code' => 400,
-						'message' => 'Formato JSON inválido'
-						]));
-						}
-				$opcion = isset($_GET['opcion']) ? base64_decode($_GET['opcion']) : base64_decode($_POST['opcion']);
+				$variables = json_decode(urldecode($_GET['variables']), true);
+				$opcion = base64_decode($variables['opcion']);
+				$array =$variables['data'];				
+				$data = json_decode($array, true);
+				
 				//INSTANCIAS INVOLUNCRADAS
 				$appAudi=new Apis('apis_auditoria');
 				$app_Menu=new Apis('apis_menu');

@@ -199,9 +199,15 @@ class ValidateurXML {
 
 	// https://code.spip.net/@debutElement
 	public function debutElement($phraseur, $name, $attrs) {
-		if ($this->dtc->elements) {
-			$this->validerElement($phraseur, $name, $attrs);
-		}
+	    if (is_array($this->dtc)) {
+            $this->validerElement($phraseur, $name, $attrs);
+        } elseif (is_object($this->dtc)) {
+           $this->validerElement($phraseur, $name, $attrs);
+        } else {
+            $this->validerElement($phraseur, $name, $attrs);
+        }
+	
+	
 
 		if ($f = $this->process['debut']) {
 			$f($this, $name, $attrs);

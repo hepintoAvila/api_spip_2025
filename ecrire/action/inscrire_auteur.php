@@ -19,15 +19,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 /**
  * Inscrire un nouvel auteur sur la base de son nom et son email
  *
@@ -168,15 +160,7 @@ function inscription_nouveau($desc,$tipo) {
 	}
 	//$pos = strpos($tipo['nom'], '@');
 	//$email_filtrado = substr($tipo['nom'], 0, $pos);
-	/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+	
 	$desc['statut'] = '0minirezo';
 	$desc['tipo'] = $tipo['tipo'];
 	$desc['entidad'] =$tipo['entidad'];

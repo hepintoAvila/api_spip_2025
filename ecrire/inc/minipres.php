@@ -218,6 +218,6 @@ function minipres($titre = '', $corps = "", $options = array()) {
 		foreach ($_POST as $v => $c) {
 			$url = parametre_url($url, $v, $c, '&');
 		}
-		ajax_retour("<div>" . $titre . redirige_formulaire($url) . "</div>", false);
+		//ajax_retour("<div>" . $titre . redirige_formulaire($url) . "</div>", false);
 	}
 }

@@ -15,15 +15,7 @@
  *
  * @package SPIP\Core\Auteurs\Edition
  */
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }

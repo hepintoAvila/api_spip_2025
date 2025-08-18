@@ -1,39 +1,18 @@
 <?php
-
-// AuthorController.php
-/**
- * @About:      API Interface
- * @File:       AuthorController.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/
- 
 require_once 'helps/Segurity.php';
-require_once 'helps/makeCurlRequest.php';
+require_once '../../api2025/makeCurlRequest.php';
 require_once 'helps/DbHandler.php';
- 
+require_once 'EnviarController.php'; 
 
 
 class AuthorController {
 	
- /**
-     * Registra un intento fallido de inicio de sesión
-     * @param string $login El nombre de usuario que intentó iniciar sesión
-     * @param string $ip La dirección IP del usuario que intentó iniciar sesión
-     */
-    public static function registrarIntentoFallido($login, $ip) {
-        $db = new DbHandler();
-        $query = "INSERT INTO api_intentos_fallidos_login (login, ip) VALUES (?, ?)";
-        $db->metodoInsert($query, array($login, $ip));
-    }
-
-    /**
-     * Obtiene el número de intentos fallidos de inicio de sesión desde una dirección IP específica
-     * @param string $ip La dirección IP para la cual se desean obtener los intentos fallidos
-     * @return int El número de intentos fallidos
-     */
+	
+public static function registrarIntentoFallido($login, $ip) {
+    $db = new DbHandler();
+    $query = "INSERT INTO api_intentos_fallidos_login (login, ip) VALUES (?, ?)";
+    $db->metodoInsert($query, array($login, $ip));
+}
 
 public static function obtenerIntentosFallidosPorIp($ip) {
     $db = new DbHandler();
@@ -87,8 +66,9 @@ public static function reiniciarIntentosFallidos($login) {
 }
 public static function handleRequest() {
     try {
-        $authData = self::getAuthData();
-        $urlParams = self::getUrlParams();
+         $enviar = new EnviarController();
+        $authData = $enviar->getAuthData();
+        $urlParams = $enviar->getUrlParams();
 
         if (!$urlParams) {
             throw new Exception("Invalid URL structure for 'auteur' action");
@@ -117,7 +97,7 @@ public static function handleRequest() {
 					if ($intentosFallidos >= $maxIntentos) {
 						if ($tiempoBloqueoUsuario > time()) {
 							$tiempoRestante = $tiempoBloqueoUsuario - time();
-							$records['data'] = array('status' => '401', 'error' => 'Cuenta bloqueada temporalmente. Inténtalo de nuevo en ' . gmdate("i:s", $tiempoRestante) . ' minutos');
+							$records['data'] = array('status' =>401, 'error' => 'Cuenta bloqueada temporalmente. Inténtalo de nuevo en ' . gmdate("i:s", $tiempoRestante) . ' minutos');
 							echo json_encode($records);
 							exit;
 						} else {
@@ -140,7 +120,7 @@ public static function handleRequest() {
 						$tiempoBloqueoUsuario = time() + ($tiempoBloqueo * 60);
 						self::actualizarTiempoBloqueo($login, $tiempoBloqueoUsuario);
 					}
-					$records['data'] = array('status' => '401','menssage'=>'usuario o password incorrectos');
+					$records['data'] = array('status' =>401,'menssage'=>'usuario o password incorrectos');
 					echo json_encode($records);
 					exit;
 				}
@@ -148,7 +128,7 @@ public static function handleRequest() {
                 throw new Exception("Usuario no encontrado");
             }
         } else {
-            $records['data'] = array('status' => '401');
+            $records['data'] = array('status' =>401,'menssage'=>'usuario o password incorrectos');
             echo json_encode($records);
             exit;
         }
@@ -158,69 +138,6 @@ public static function handleRequest() {
         exit;
     }
 }
-
-	  private static function getAuthData() {
-		$authData = [];
-		$headers = getallheaders();
-		 //print_r($headers);
-		// Normalizar nombres de headers (case-insensitive)
-		$headerKeys = array_change_key_case($headers, CASE_UPPER);
-		// Obtener headers con nombres normalizados
-			$encryptedData = $headerKeys['X-SICES-API-APIKEY'] ?? '';
-			$secretKey = $headerKeys['X-SICES-API-APITOKEN'] ?? '';
-			$var_login = $headerKeys['X-SICES-API-USER'] ?? '';
-		// Verificar si es una solicitud de Postman (con datos sin codificar)
-	 
-		
-		if (empty($encryptedData) || empty($secretKey)) {
-			error_log("Headers recibidos: " . print_r($headers, true));
-			echo json_encode(['error' => 'Missing or invalid headers', 'debug' => [
-				'X-SICES-API-Apikey' => isset($headers['X-SICES-API-Apikey']),
-				'X-SICES-API-ApiToken' => isset($headers['X-SICES-API-ApiToken']),
-				'X-SICES-API-USER' => isset($headers['X-SICES-API-USER'])
-			]]);
-			exit;
-		}
-		$encryptedData = base64_decode($headerKeys['X-SICES-API-APIKEY'] ?? '');
-		$secretKey = base64_decode($headerKeys['X-SICES-API-APITOKEN'] ?? '');
-		$var_login = base64_decode($headerKeys['X-SICES-API-USER'] ?? ''); 
-		$password = obtenerPass($encryptedData, $secretKey);
-		
-		
-	   if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-		   $ha = base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6));
-			   if (!empty($ha) && strpos($ha, ':') !== false) {
-			   list($php_auth_user, $php_auth_pw) = explode(':', $ha);
-				   $authData = [
-					'var_login' => $php_auth_user,
-					'password' => $php_auth_pw
-					];
-			   }else{
-					 throw new Exception('1. NO AUTORIZADO_HTTP_AUTHORIZATION');
-			   }	
-	   } elseif (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-            $authData = ['var_login' => $_SERVER['PHP_AUTH_USER'], 'password' => $_SERVER['PHP_AUTH_PW']];
-       } else {
-			try {
-			 if ($mode == 'useAuth') {
-                   //error_log("Usando modo de autenticación");
-                    $password = $passwordKey;
-                } elseif ($mode == 'uselocal') {
-                    //error_log("Usando modo local");
-                    $password = '';
-                } else {
-                    //error_log("Modo desconocido: $mode");
-                    throw new Exception('Modo de autenticación desconocido');
-                }
-				 $authData = ['var_login' => $php_auth_user, 'password' => $password];
-			 } catch (Exception $e) {
-                ///error_log("Error en obtenerPass: " . $e->getMessage());
-                throw new Exception('2. NO AUTORIZADO_PHP_AUTH_USER');
-            }
-	   }
-	   
-		return $authData;
-	}
     private static function getUrlParams() {
         $urlParams = [];
         $queryString = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
@@ -234,5 +151,6 @@ public static function handleRequest() {
 
         return $urlParams;
     }
+	
 }
 ?>

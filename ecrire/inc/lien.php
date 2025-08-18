@@ -102,6 +102,9 @@ function calculer_url($ref, $texte = '', $pour = 'url', $connect = '', $echappe_
 	return $r ? $r : traiter_lien_explicite($ref, $texte, $pour, $connect, $echappe_typo);
 }
 
+if (!defined('_PROTOCOLES_STD')) {
+    define('_PROTOCOLES_STD', 'http|https|ftp|file|mailto|news');
+}
 define('_EXTRAIRE_LIEN', ',^\s*(?:' . _PROTOCOLES_STD . '):?/?/?\s*$,iS');
 
 // https://code.spip.net/@traiter_lien_explicite

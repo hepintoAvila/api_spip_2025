@@ -10,15 +10,7 @@
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
 
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
@@ -40,7 +32,7 @@ class MenuService {
     $sql = sql_select('idRol', 'apis_roles', 'tipo=' . sql_quote($tipo));
     $row = sql_fetch($sql);
     if (!$row) {
-      throw new Exception('No se encontrï¿½ el rol');
+      throw new Exception('No se encontró el rol');
     }
     return $row['idRol']; 
   }

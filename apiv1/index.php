@@ -3,10 +3,9 @@
 /**
  * @About:      API Interface
  * @File:       index.php
- * @Date:       febrero-2025
+ * @Date:       febrero-2022
  * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
+ * @Developer:  Hosmmer Eduardo
  **/
  
 error_reporting(E_ALL);
@@ -55,10 +54,22 @@ $router = new Router();
 
 // Define routes
 
-$router->addRoute('POST', 'menu', ['EnviarController', 'handleRequest']);	
-$router->addRoute('POST', 'usuarios', ['EnviarController', 'handleRequest']);
-$router->addRoute('POST', 'roles', ['EnviarController', 'handleRequest']);
-$router->addRoute('GET', 'auteur', ['AuthorController', 'handleRequest']);
+$router->addRoute('POST', 'admin_menu', ['EnviarController', 'handleRequest']);	
+$router->addRoute('POST', 'admin_login', ['EnviarController', 'handleRequest']);	
+$router->addRoute('POST', 'importar', ['EnviarController', 'handleRequest']);
+$router->addRoute('POST', 'admin_usuarios', ['EnviarController', 'handleRequest']);
+$router->addRoute('POST', 'admin_roles', ['EnviarController', 'handleRequest']);
+$router->addRoute('GET','imagenes', ['EnviarController', 'handleRequest']);
+$router->addRoute('POST','admin_visitas', ['EnviarController', 'handleRequest']);
+$router->addRoute('POST','turnos', ['EnviarController', 'handleRequest']);
+$router->addRoute('POST','admin_permisos', ['EnviarController', 'handleRequest']);
+// Add debugging here
+///$accionEncoded = isset($_GET['accion']) ? $_GET['accion'] : '';
+//error_log("Accion codificada: $accionEncoded");
+
+//$accion = base64_decode($accionEncoded);
+//error_log("Accion decodificada: $accion");
+
 // Handle the request
 $router->handleRequest();
 

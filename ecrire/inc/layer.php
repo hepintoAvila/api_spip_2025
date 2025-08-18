@@ -101,13 +101,16 @@ function bouton_block_depliable($texte, $deplie, $ids = "") {
 //
 // https://code.spip.net/@verif_butineur
 function verif_butineur() {
-
-	preg_match(",^([A-Za-z]+)/([0-9]+\.[0-9]+) (.*)$,", $_SERVER['HTTP_USER_AGENT'], $match);
-	$GLOBALS['browser_name'] = $match[1];
-	$GLOBALS['browser_version'] = $match[2];
-	$GLOBALS['browser_description'] = $match[3];
-	$GLOBALS['browser_layer'] = ' '; // compat avec vieux scripts qui testent la valeur
-	$GLOBALS['browser_barre'] = '';
+if (preg_match(",^([A-Za-z]+)/([0-9]+\.[0-9]+) (.*)$,", $_SERVER['HTTP_USER_AGENT'], $match)) {
+        $GLOBALS['browser_name'] = $match[1];
+        $GLOBALS['browser_version'] = $match[2];
+        $GLOBALS['browser_description'] = $match[3];
+    } else {
+        // No se pudo determinar el navegador
+        $GLOBALS['browser_name'] = 'Desconocido';
+        $GLOBALS['browser_version'] = '';
+        $GLOBALS['browser_description'] = '';
+    }
 
 	if (!preg_match(",opera,i", $GLOBALS['browser_description']) && preg_match(",opera,i", $GLOBALS['browser_name'])) {
 		$GLOBALS['browser_name'] = "Opera";

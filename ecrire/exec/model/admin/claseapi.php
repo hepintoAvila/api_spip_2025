@@ -10,15 +10,7 @@
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
 
-/**
- *
- * @About:      API Interface
- * @File:       index.php
- * @Date:       febrero-2025
- * @Version:    1.0
- * @Developer:  Hosmmer Eduardo Pinto Rojas
- * @email: holmespinto@unicesar.edu.co
- **/ 
+
 
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
@@ -33,7 +25,7 @@ include_spip('base/connect_sql');
         public function __construct() {
 		//$this->periodoacademico_id=$periodoacademico_id;		
         } 
-		abstract function guardarAudi($menu,$submenu,$accion);
+		abstract function guardarAudi($menu,$submenu,$accion,$aut);
 		abstract function consultadatos($query,$select,$campos);
 		abstract function actualizarDatos($chartic,$id_nom,$id);
 		abstract function consultamenu($query,$select,$table);
@@ -372,22 +364,9 @@ include_spip('base/connect_sql');
 		 * Parametros de entrada :$chartic=array(),$table
 		 * Parametros de Salida: 
 		 */ 
-		public function guardarAudi($menu,$submenu,$accion){
+		public function guardarAudi($menu,$submenu,$accion,$aut){
 				
 											 	//AUDITORIA			
-	
-												 $session_login =_request('var_login');
-												 $session_password = _request('password');
-												 if (!empty($session_login) && !empty($session_password)) {
-												 include_spip('inc/auth');
-												 $aut = auth_identifier_login($session_login, $session_password);
-												 }else{
-													 $idUsuario =base64_decode(_request('idUsuario'));
-													 $sql = sql_select('*','api_auteurs','id_auteur="'.$idUsuario.'"');
-													 while ($row = sql_fetch($sql)) {	
-														   $aut=$row; 
-													 }
-												 }
 												if($accion !='consulta'){
 													$audi=array();
 													$audi['id_auteur']=$aut['id_auteur'];
