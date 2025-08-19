@@ -21,10 +21,10 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
 	+ Parámetros: `username`, `password`
 	+ Respuesta: `token`
 
-### Artículos
+### Roles
 
 
-* **GET /api2025/admin_login**: Devuelve una lista de artículos.
+* **POST /api2025/admin_login**: Devuelve una lista de artículos.
 	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
 	+ Respuesta: `array de Auth`
 `{
@@ -32,7 +32,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
     "type": "success",
     "message": "ok",
     "data": {
-        "Auth": {
+        "rOLES": {
             "Nom": "xxxxx",
             "Email": "xxxxx@gmail.com",
             "rol": "Administrador",
@@ -42,9 +42,20 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
         "Permisos" [],
 	}
  }`
-* **GET /api2025/admin_login/{id}**: Devuelve un artículo específico.
-	+ Parámetros: `id`
-	+ Respuesta: `artículo`
+* **GET /api2025/admin_roles**: Devuelve un artículo específico.
+	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
+	+ Respuesta: `{
+    "status": 200,
+    "type": "success",
+    "message": "ok",
+    "data": {
+        "rOLES": {
+                "idRol": "111",
+                "tipo": "Hemerotecass",
+                "status": "Activo"
+            },
+	}
+ }`
 * **POST /api2025/admin_login**: Crea un nuevo artículo.
 	+ Parámetros: `title`, `content`
 	+ Respuesta: `artículo creado`
