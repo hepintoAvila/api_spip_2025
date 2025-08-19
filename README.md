@@ -74,7 +74,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
             },
    		]
  }}`
-* **POST /api2025/admin_usuarios**: Elimina un artículo.
+* **POST /api2025/admin_usuarios**: Administrador de usuarios.
 	+ Parámetros: `id`
 	+ Respuesta: `{
     "status": 200,
