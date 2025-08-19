@@ -117,7 +117,7 @@ La API utiliza una clave de API para autenticar las solicitudes. Puedes obtener 
 ## Ejemplos
 
 * **Autenticación**: `curl -X POST -H "Content-Type: application/json" -d '{"username": "tu_usuario", "password": "tu_contraseña"}' http://localhost/api_spip_2025/api/auth`
-* **Listar permisos**: `curl --location --request POST 'https://lacasadelbarbero.com.co/api2025/?exec=admin_permisos&opcion=Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z&accion=YWRtaW5fcGVybWlzb3M%3D&bonjour=oui&_SPIP_PAGE=admin_permisos&action=true&var_ajax=form' \
+* **Listar permisos**: `curl --location --request POST 'http://localhost/api2025/?exec=admin_permisos&opcion=Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z&accion=YWRtaW5fcGVybWlzb3M%3D&bonjour=oui&_SPIP_PAGE=admin_permisos&action=true&var_ajax=form' \
 --header 'x-sices-api-apikey: 08va1GH/RDOsQ3EObGye2A==: :gAC0hV0zWcBEQRtYFr+o4A==' \
 --header 'Authorization: Basic am90YXQwMDdAZ21haWwuY29tOmpvdGF0MDA3' \
 --header 'Cookie: spip_admin=%40jotat007%40gmail.com; spip_session=81_74d6554f2f0aca7a41bb3fcdbb0fb36e'
