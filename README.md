@@ -32,7 +32,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
     "type": "success",
     "message": "ok",
     "data": {
-        "rOLES": {
+        "Roles": {
             "Nom": "xxxxx",
             "Email": "xxxxx@gmail.com",
             "rol": "Administrador",
@@ -49,16 +49,31 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
     "type": "success",
     "message": "ok",
     "data": {
-        "rOLES": {
+        "Roles": {
                 "idRol": "111",
                 "tipo": "Hemerotecass",
                 "status": "Activo"
             },
 	}
  }`
-* **POST /api2025/admin_login**: Crea un nuevo artículo.
-	+ Parámetros: `title`, `content`
-	+ Respuesta: `artículo creado`
+* **POST /api2025/admin_menu**: Crea un nuevo artículo.
+	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
+	+ Respuesta: `{
+    "status": 200,
+    "type": "success",
+    "message": "ok",
+  "data": {
+        "Menus": [
+            {
+                "idMenu": "13",
+                "key": "hemeroteca",
+                "label": "Hemeroteca",
+                "isTitle": "0",
+                "icon": "mdi mdi-calendar-month",
+                "status": "Active"
+            },
+   		]
+ }`
 * **PUT /api2025/admin_login/{id}**: Actualiza un artículo existente.
 	+ Parámetros: `id`, `title`, `content`
 	+ Respuesta: `artículo actualizado`
