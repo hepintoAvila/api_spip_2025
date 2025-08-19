@@ -73,7 +73,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
                 "status": "Active"
             },
    		]
- }`
+ }}`
 * **POST /api2025/admin_usuarios**: Administrador de usuarios.
 	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
 	+ Respuesta: `artículo actualizado`
@@ -93,7 +93,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
                 "tipo": "Administrador"
             },
    		]
- }`
+ }}`
 
 ## API Key
 
