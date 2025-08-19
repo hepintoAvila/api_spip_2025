@@ -23,7 +23,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 		include_spip('inc/actions');
 		
-function exec_admin_menu_dist($get=array()){
+function exec_admin_menu_dist($get=array(),$post=array()){
 				 $credentials = charger_fonction('credentials', 'authorization');
 				 $resdataCredencials = $credentials();
 				try {
@@ -51,11 +51,12 @@ function exec_admin_menu_dist($get=array()){
 					exit;
 				}	
 				try {
+			
 				$opcion = base64_decode($_GET['opcion']);
-				$array = $_GET['data'] ?? null;
+				$array = $_POST['data'] ?? null;
 				if ($array === null) {
 					$data = array();
-				} else {
+				} elseif (is_string($array)) {
 					$data = json_decode($array, true);
 					if (json_last_error() !== JSON_ERROR_NONE) {
 						die(json_encode([
@@ -64,8 +65,10 @@ function exec_admin_menu_dist($get=array()){
 							'message' => 'Formato JSON inválido'
 						]));
 					}
+				} else {
+					$data = $array;
 				}
-						 
+			 
 			} catch (Exception $e) {
 				$records['data'] = array('status'=>400,'error'=>$e->getMessage());  
 				echo json_encode($records);
