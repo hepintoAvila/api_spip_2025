@@ -64,13 +64,13 @@ class ApiKeyManager extends PagesSecurity {
 			}
 			
 			
-			echo "Contenido de la clave secreta: " . $secretKey . "\n";
+			//echo "Contenido de la clave secreta: " . $secretKey . "\n";
 			
 			$chartic['user_id'] = $userId;
 			$chartic['secret_key'] = $secretKey;
 			$this->updateApiKey($chartic, 'user_id', $userId);
 			$AppKey = $this->encryptData($userId, $secretKey);
-			echo "Longitud de la clave secreta: " . $AppKey . "\n";
+			//echo "Longitud de la clave secreta: " . $AppKey . "\n";
 			return $AppKey;		
 		} else {
 			// Si no existe, crea una nueva clave secreta
@@ -80,13 +80,13 @@ class ApiKeyManager extends PagesSecurity {
 				// Puedes generar una nueva clave secreta y almacenarla
 				$secretKey = $this->asignarSecretKey($userId);
 			}
-			echo "Longitud de la clave secreta: " . strlen($secretKey) . "\n";
-			echo "Contenido de la clave secreta: " . $secretKey . "\n";
+			//echo "Longitud de la clave secreta: " . strlen($secretKey) . "\n";
+			//echo "Contenido de la clave secreta: " . $secretKey . "\n";
 			$chartic['user_id'] = $userId;
 			$chartic['secret_key'] = $secretKey;
 			$id = $this->addApiKey($chartic);
 			$AppKey = $this->encryptData($userId, $secretKey);
-			echo "Longitud de la clave secreta: " . $AppKey . "\n";
+			//echo "Longitud de la clave secreta: " . $AppKey . "\n";
 			return $AppKey;		
 		}
 	}

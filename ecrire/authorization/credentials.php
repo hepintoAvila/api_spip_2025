@@ -37,12 +37,14 @@ function authorization_credentials_dist() {
     				include_spip('authorization/Authenticator');
                     $authenticator = new Authenticator($username, $password);
     				$var_auth = $authenticator->authenticate();
-					
+					 
 						// creer la session au besoin
 					if (is_array($var_auth)) {
+							/*
 							spip_setcookie('spip_session', $_COOKIE['spip_session'], [
 								'expires' => time() + 3600 * 24 * 14
 							]);
+							*/
 						include_spip('inc/autoriser');
 						if (!autoriser('loger', '', 0, $var_auth)) {
 							return false;

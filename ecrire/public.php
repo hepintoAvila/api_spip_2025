@@ -1,5 +1,8 @@
 <?php
-
+define('_ESPACE_PRIVE', true);
+if (!defined('_ECRIRE_INC_VERSION')) {
+	include 'inc_version.php';
+}
 /***************************************************************************\
  *  SPIP, Système de publication pour l'internet                           *
  *                                                                         *
@@ -26,12 +29,13 @@
  */
 
 
+
 if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 	
 	echo recuperer_fond($fond, $contexte_inclus, array(), _request('connect'));
 
 } else {
- 
+
 	
 	$GLOBALS['_INC_PUBLIC'] = 1;
 	define('_PIPELINE_SUFFIX', test_espace_prive() ? '_prive' : '');
@@ -49,41 +53,51 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			$_SERVER['HTTP_X_FORWARDED_HOST'] = strtr($_SERVER['HTTP_X_FORWARDED_HOST'], "<>?\"\{\}\$'` \r\n", '____________');
 		}
-		 
+			
 			$__request = array_merge($_POST, $_GET);
+			//print_r($__request);
 			$res = array();
 			// Validación de seguridad
 			$campos = array('exec', 'accion', 'opcion', '_SPIP_PAGE', 'action', 'var_ajax');
-			$valido = true;
-			foreach ($campos as $campo) {
-				if (!isset($__request[$campo])) {
-					$res[] = $campo;
-					$valido = false;
-					break;
-				}
-				// Si el valor parece ser una cadena Base64, decodificarla
-				if (preg_match(',^[a-zA-Z0-9+/=]+$,', $__request[$campo])) {
-					$decoded_value = base64_decode($__request[$campo], true);
-					if ($decoded_value === false) {
-						$res[] = $campo;
+				$valido = true;
+				$campos_decodificables = array('accion', 'opcion');
+
+				foreach ($campos as $campo) {
+					if (isset($__request['params'])) {
+						$params = json_decode($__request['params'], true);
+						$__request = array_merge($__request, $params);
+						unset($__request['params']); // Elimina el campo params del arreglo
+					}
+					if (in_array($campo, $campos_decodificables) && preg_match(',^[a-zA-Z0-9+/=]+$,', $__request[$campo])) {
+						$decoded_value = base64_decode($__request[$campo], true);
+						if ($decoded_value === false) {
+							$res[] = $campo . ' (decodificación fallida)';
+							print_r($res);
+							$valido = false;
+							break;
+						} else {
+							if (!preg_match(',^[\w-]+$,', $decoded_value)) {
+								$res[] = $campo . ' (valor decodificado inválido)';
+								print_r($res);
+								$valido = false;
+								break;
+							}
+						}
+					} else {
+						if (!preg_match(',^[a-zA-Z0-9_-]+$,', $__request[$campo])) {
+						$res[] = $campo . ' (valor inválido)';
+						print_r($res);
 						$valido = false;
 						break;
-					}
-				} else {
-					// Validar el formato del valor
-					if (!preg_match(',^[\w-]+$,', $__request[$campo])) {
-						$res[] = $campo;
-						$valido = false;
-						break;
+						}
 					}
 				}
-			}
 			// Verificar si se activó la seguridad
 			if (!$valido) {
 				$records['data'] = array(
 					'status' => 400,
 					'menssage' => 'Solicitud inválida',
-					'error' => 'ECRAN_SECURITE activado'
+					'error' => '1.ECRAN_SECURITE activado'
 				);
 				echo json_encode($records);
 				return;
@@ -214,12 +228,6 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 	}
 
 	$tableau_des_temps = array();
-
-	// Particularites de certains squelettes
-	if ($fond == 'apis'||$fond == 'turnos') {
-		$forcer_lang = true;
-	}
-
 	if (isset($forcer_lang) and $forcer_lang and ($forcer_lang !== 'non')
 		and !_request('action')
 		and $_SERVER['REQUEST_METHOD'] != 'POST'
@@ -229,7 +237,7 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 	}
 
 	$lang = !isset($_GET['lang']) ? '' : lang_select($_GET['lang']);
-
+	$exec = (string)_request('exec');
 	// Charger l'aiguilleur des traitements derogatoires
 	// (action en base SQL, formulaires CVT, AJax)
 	if (_request('action') or _request('var_ajax') or _request('formulaire_action')) {
@@ -239,12 +247,28 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 		if ($lang) {
 				lang_select();
 		}
-		include_spip('inc/utils');
-		
-		redirige_url_ecrire($GLOBALS['_POST']['_SPIP_PAGE'], 'params=' . urlencode(json_encode($GLOBALS['_POST'])));
-		// sauver le cache chemin si necessaire
-		save_path_cache();
-		exit;
+				 
+			if (autoriser_sans_cookie($exec, false)) {
+				
+					if (!isset($reinstall)) {
+						$reinstall = 'non';
+						
+					}
+				 
+				} else {
+						$exec = $GLOBALS['_GET']['_SPIP_PAGE'];
+			
+						if ($var_f = tester_url_ecrire($exec)) {
+							include_spip('inc/actions');
+							$var_f = charger_fonction($var_f);
+							$var_f($GLOBALS['_GET']);
+							exit;		
+						} else {
+							$var_f = charger_fonction('404');
+							$var_f($exec);
+						}
+				}	 
+
 	}
 
 /*

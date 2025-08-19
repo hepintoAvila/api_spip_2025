@@ -1,6 +1,11 @@
 <?php
+// app/Routing/Router.php
+namespace App\Routing;
+
 class Router {
+	
     private $routes = [];
+	
     public function addRoute($method, $path, $handler) {
         $this->routes[] = [
             'method' => $method,

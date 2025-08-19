@@ -1,7 +1,17 @@
 <?php
+namespace App\Controllers;
+
 require_once '../../api2025/makeCurlRequest.php';
 require_once '../../api2025/importer_csv.php';
+// app/Controllers/EnviarController.php
+namespace App\Controllers;
+
 class EnviarController {
+
+    public function __construct() {
+        //$this->auth = $auth;
+    }
+	
         public static function handleRequest() {
             // Obtener datos de autenticación
             $authData = self::getAuthData();

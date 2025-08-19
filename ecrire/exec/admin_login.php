@@ -25,8 +25,20 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 function exec_admin_login_dist(){		
 				try {
-				$params = json_decode(urldecode($_GET['params']), true);				
-				$opcion = base64_decode($params['opcion']);
+				$opcion = base64_decode($_GET['opcion']);
+				$array = $_GET['data'] ?? null;
+				if ($array === null) {
+					$data = array();
+				} else {
+					$data = json_decode($array, true);
+					if (json_last_error() !== JSON_ERROR_NONE) {
+						die(json_encode([
+							'status' => 'error',
+							'code' => 400,
+							'message' => 'Formato JSON inválido'
+						]));
+					}
+				}
 						 
 			} catch (Exception $e) {
 				$records['data'] = array('status'=>400,'error'=>$e->getMessage());  

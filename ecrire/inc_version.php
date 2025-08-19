@@ -527,14 +527,36 @@ if (!defined('_OUTILS_DEVELOPPEURS')) {
 if (test_espace_prive()) {
 	include_spip('inc/autoriser');
 }
+
 //
 // Installer Spip si pas installe... sauf si justement on est en train
 //
-if (!(_FILE_CONNECT
-	or autoriser_sans_cookie(_request('exec'))
-	or _request('action') == 'cookie'
-	or _request('action') == 'converser'
-	or _request('action') == 'test_dirs')
+//var_dump(_FILE_CONNECT);
+//var_dump(autoriser_sans_cookie(_request('exec')));
+//var_dump(_request('action'));
+
+if (!_FILE_CONNECT || !_request('action') || !autoriser_sans_cookie(_request('exec'))) {
+	if (!in_array(_request('action'), array('cookie', 'converser', 'test_dirs'))) {
+		
+		$exec = (!is_null(_request('exec'))) ? _request('exec') : ($exec == 'install' ? 'oui' : null);
+		 
+		if (autoriser_sans_cookie($exec)){
+			
+				include_spip('inc/headers');
+				redirige_url_ecrire("install");
+			} else {
+				
+				include_spip('inc/headers');
+				include _DIR_RESTREINT_ABS.'public.php';
+				//
+				exit;
+			}
+	}
+}
+/*
+if (!_FILE_CONNECT
+	&& !autoriser_sans_cookie(_request('exec'))
+	&& !in_array(_request('action'), array('cookie', 'converser', 'test_dirs'))
 ) {
 
 	// Si on peut installer, on lance illico
@@ -550,7 +572,7 @@ if (!(_FILE_CONNECT
 	}
 	// autrement c'est une install ad hoc (spikini...), on sait pas faire
 }
-
+*/
 // memoriser un tri sessionne eventuel
 if (isset($_REQUEST['var_memotri'])
 	and $t = $_REQUEST['var_memotri']
