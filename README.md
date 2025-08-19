@@ -23,9 +23,25 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
 
 ### Artículos
 
+
 * **GET /api2025/admin_login**: Devuelve una lista de artículos.
-	+ Parámetros: `limit`, `offset`
-	+ Respuesta: `array de artículos`
+	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
+	+ Respuesta: `array de Auth`
+`{
+    "status": 200,
+    "type": "success",
+    "message": "ok",
+    "data": {
+        "Auth": {
+            "Nom": "xxxxx",
+            "Email": "xxxxx@gmail.com",
+            "rol": "Administrador",
+            "AppKey": "xxx"
+        },
+        "Menus": [],
+        "Permisos" [],
+	}
+ }`
 * **GET /api2025/admin_login/{id}**: Devuelve un artículo específico.
 	+ Parámetros: `id`
 	+ Respuesta: `artículo`
