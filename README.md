@@ -75,7 +75,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
    		]
  }}`
 * **POST /api2025/admin_usuarios**: Administrador de usuarios.
-	+ Parámetros: `id`
+	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
 	+ Respuesta: `{
     "status": 200,
     "type": "success",
@@ -91,7 +91,25 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
             },
    		]
  }}`
-
+* **POST /api2025/admin_permisos**: Administrador de Permisos.
+	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
+	+ Respuesta: `{
+    "status": 200,
+    "type": "success",
+    "message": "ok",
+  "data": {
+        "Permisos": [
+            {
+            "query": "S",
+            "add": "S",
+            "update": "S",
+            "delete": "S",
+            "id_autorizacion": "1",
+            "menu": "Evaluacion",
+            "submenu": "Evaluaciones"
+            },
+   		]
+ }}`
 ## API Key
 
 La API utiliza una clave de API para autenticar las solicitudes. Puedes obtener una clave de API mediante el endpoint `/api/auth`.
