@@ -24,7 +24,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
 ### Roles
 
 
-* **POST /api2025/admin_login**: Devuelve una lista de artículos.
+* **POST /api2025/admin_login**: Administrador de login.
 	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
 	+ Respuesta: `array de Auth`
 `{
@@ -42,7 +42,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
         "Permisos" [],
 	}
  }`
-* **GET /api2025/admin_roles**: Devuelve un artículo específico.
+* **POST /api2025/admin_roles**: Administrador de roles.
 	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
 	+ Respuesta: `{
     "status": 200,
@@ -56,7 +56,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
             },
 	}
  }`
-* **POST /api2025/admin_menu**: Crea un nuevo artículo.
+* **POST /api2025/admin_menu**: Administrador de menus.
 	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
 	+ Respuesta: `{
     "status": 200,
@@ -74,12 +74,26 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
             },
    		]
  }`
-* **PUT /api2025/admin_login/{id}**: Actualiza un artículo existente.
-	+ Parámetros: `id`, `title`, `content`
+* **POST /api2025/admin_usuarios**: Administrador de usuarios.
+	+ Parámetros: `accion`, `opcion`, `exec`, `_SPIP_PAGE`, `action`, `var_ajax`
 	+ Respuesta: `artículo actualizado`
 * **DELETE /api2025/admin_login/{id}**: Elimina un artículo.
 	+ Parámetros: `id`
-	+ Respuesta: `artículo eliminado`
+	+ Respuesta: `{
+    "status": 200,
+    "type": "success",
+    "message": "ok",
+  "data": {
+        "usuarios": [
+            {
+                "id_auteur": "3535",
+                "nombres": "770257507",
+                "email": "prueba2222@unicesar.edu.co",
+                "login": "",
+                "tipo": "Administrador"
+            },
+   		]
+ }`
 
 ## API Key
 
