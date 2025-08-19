@@ -23,19 +23,19 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
 
 ### Artículos
 
-* **GET /api/articles**: Devuelve una lista de artículos.
+* **GET /api2025/admin_login**: Devuelve una lista de artículos.
 	+ Parámetros: `limit`, `offset`
 	+ Respuesta: `array de artículos`
-* **GET /api/articles/{id}**: Devuelve un artículo específico.
+* **GET /api2025/admin_login/{id}**: Devuelve un artículo específico.
 	+ Parámetros: `id`
 	+ Respuesta: `artículo`
-* **POST /api/articles**: Crea un nuevo artículo.
+* **POST /api2025/admin_login**: Crea un nuevo artículo.
 	+ Parámetros: `title`, `content`
 	+ Respuesta: `artículo creado`
-* **PUT /api/articles/{id}**: Actualiza un artículo existente.
+* **PUT /api2025/admin_login/{id}**: Actualiza un artículo existente.
 	+ Parámetros: `id`, `title`, `content`
 	+ Respuesta: `artículo actualizado`
-* **DELETE /api/articles/{id}**: Elimina un artículo.
+* **DELETE /api2025/admin_login/{id}**: Elimina un artículo.
 	+ Parámetros: `id`
 	+ Respuesta: `artículo eliminado`
 
