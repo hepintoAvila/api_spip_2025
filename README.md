@@ -112,11 +112,11 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
  }}`
 ## API Key
 
-La API utiliza una clave de API para autenticar las solicitudes. Puedes obtener una clave de API mediante el endpoint `/api/auth`.
+La API utiliza una clave de API para autenticar las solicitudes. Puedes obtener una clave de API mediante el endpoint `/api2025/admin_login`.
 
 ## Ejemplos
 
-* **Autenticación**: `curl -X POST -H "Content-Type: application/json" -d '{"username": "tu_usuario", "password": "tu_contraseña"}' http://localhost/api_spip_2025/api/auth`
+* **Autenticación**: `curl -X POST -H "Content-Type: application/json" -d '{"username": "tu_usuario", "password": "tu_contraseña"}' http://localhost/api2025/`
 * **Listar permisos**: `curl --location --request POST 'http://localhost/api2025/?exec=admin_permisos&opcion=Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z&accion=YWRtaW5fcGVybWlzb3M%3D&bonjour=oui&_SPIP_PAGE=admin_permisos&action=true&var_ajax=form' \
 --header 'x-sices-api-apikey: 08va1GH/RDOsQ3EObGye2A==: :gAC0hV0zWcBEQRtYFr+o4A==' \
 --header 'Authorization: Basic am90YXQwMDdAZ21haWwuY29tOmpvdGF0MDA3' \
