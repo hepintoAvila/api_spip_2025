@@ -21,7 +21,7 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
 	+ Parámetros: `username`, `password`
 	+ Respuesta: `token`
 
-### Roles
+### Administrador de usuarios
 
 
 * **POST /api2025/admin_login**: Administrador de login.
