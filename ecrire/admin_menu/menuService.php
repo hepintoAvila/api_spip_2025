@@ -6,31 +6,105 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 	
 class MenuService {
     private $apis;
+    private $SubMenu;
     private $idRol;
     public $data;
 
     public function __construct($data) {
         $this->data = $data;
         $this->apis = new General('apis_menu');
+        $this->SubMenu = new General('apis_submenus');
         $this->idRol = $this->getIdRol($this->data['tipo']);
     }
-
-    public function addMenus($chartic) {
-        if (!is_array($chartic)) {
-            throw new Exception('El parámetro $chartic debe ser un array');
+      private function getIdRol($arg1) {
+        $sql = sql_select('idRol', 'apis_roles', 'tipo = ' . sql_quote($arg1));
+        if (!$sql) {
+          throw new Exception('Error al consultar roles');
         }
-        $this->apis->guardarDatos($chartic);
+        $row = sql_fetch($sql);
+        if (!$row) {
+          throw new Exception('No se encontraron roles para el usuario');
+        }
+        return $row['idRol'];
+      }
+    public function addMenus($data) {
+		$chartic=array();
+		if (!is_array($data)) {
+            throw new Exception('El parámetro $data debe ser un array');
+        }
+			$chartic=array(
+					  '`key`' => $data['key'],
+					  'label' => $data['label'],
+					  'isTitle' => $data['isTitle'],
+					  'icon' => $data['icon']
+					);
+					try {
+					  $idMenu =$this->apis->guardarDatos($chartic);
+					 return $idMenu;
+					} catch (Exception $e) {
+						$records['data'] = array('status' => '401', 'error' => $e->getMessage());
+					  header('Content-Type: application/json');
+					  http_response_code(401);
+					  echo json_encode($records);
+					  exit;
+					}
     }
 
-    public function updateMenus($chartic, $arg1, $arg2) {
-        if (!is_array($chartic)) {
-            throw new Exception('El parámetro $chartic debe ser un array');
+    public function updateMenu($data) {
+        if (!is_array($data)) {
+            throw new Exception('El parámetro $data debe ser un array');
         }
-        $this->apis->actualizarDatos($chartic, $arg1, $arg2);
+		$chartic=array(
+					  '`key`' => $data['key'],
+					  'label' => $data['label'],
+					  'isTitle' => $data['isTitle'],
+					  'icon' => $data['icon']
+					);	
+        $this->apis->actualizarDatos($chartic,'idMenu',$data['idMenu']);
     }
-
-    public function deleteMenus($arg1) {
-        sql_delete("apis_menu", "idMenu=" . intval($arg1));
+	
+	public function addSubMenu($data) {
+		$chartic=array();
+		if (!is_array($data)) {
+            throw new Exception('El parámetro $data debe ser un array');
+        }
+			$chartic=array(
+					  'idMenu' => $data['idMenu'],
+					  'idSubmenu' => $data['idSubmenu'],
+					  '`key`' => $data['key'],
+					  'parentKey' => $data['parentKey'],
+					  'label' => $data['label'],
+					  'url' => $data['url'],
+					  'icon' => $data['icon'],
+					);
+					try {
+					  $idSubMenu =$this->SubMenu->guardarDatos($chartic);
+					 return $idSubMenu;
+					} catch (Exception $e) {
+						$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+					  header('Content-Type: application/json');
+					  http_response_code(401);
+					  echo json_encode($records);
+					  exit;
+					}
+    }
+	public function updateSubMenu($data) {
+        if (!is_array($data)) {
+            throw new Exception('El parámetro $data debe ser un array');
+        }
+		$chartic=array(
+					  'label' => $data['label'],
+					  'url' => $data['isTitle'],
+					  'icon' => $data['icon']
+					);	
+        $this->SubMenu->actualizarDatos($chartic,'idSubmenu',$data['idSubmenu']);
+    }
+   public function deleteSubMenu($data) {
+        sql_delete("apis_submenus", "idSubmenu=" . intval($data['idSubmenu']));
+    }
+	
+    public function deleteMenus($data) {
+        sql_delete("apis_menu", "idMenu=" . intval($data['idMenu']));
     }
 
     public function getMenu() {
@@ -174,12 +248,5 @@ class MenuService {
     return $children;
   }
 	
-	private function getIdRol($tipo) {
-    $sql = sql_select('idRol', 'apis_roles', 'tipo=' . sql_quote($tipo));
-    $row = sql_fetch($sql);
-    if (!$row) {
-      throw new Exception('No se encontró el rol');
-    }
-    return $row['idRol']; 
-  }
+	
 }
