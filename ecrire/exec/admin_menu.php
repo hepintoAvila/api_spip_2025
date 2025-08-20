@@ -1,18 +1,18 @@
 <?php
 /***************************************************************************\
- *  SPIP, SystËme de publication pour l'internet                           *
+ *  SPIP, Syst√®me de publication pour l'internet                           *
  *                                                                         *
- *  Copyright © avec tendresse depuis 2001                                 *
- *  Arnaud Martin, Antoine Pitrou, Philippe RiviËre, Emmanuel Saint-James  *
+ *  Copyright ¬© avec tendresse depuis 2001                                 *
+ *  Arnaud Martin, Antoine Pitrou, Philippe Rivi√®re, Emmanuel Saint-James  *
  *                                                                         *
- *  Ce programme est un logiciel libre distribuÈ sous licence GNU/GPL.     *
- *  Pour plus de dÈtails voir le fichier COPYING.txt ou l'aide en ligne.   *
+ *  Ce programme est un logiciel libre distribu√© sous licence GNU/GPL.     *
+ *  Pour plus de d√©tails voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
 
 /**
  * Gestion de la recherche ajax du mini navigateur de rubriques
  *
- * Cette possibilitÈ de recherche apparaÓt s'il y a beaucoup de rubriques dans le site.
+ * Cette possibilit√© de recherche appara√Æt s'il y a beaucoup de rubriques dans le site.
  *
  * @package SPIP\Core\Rechercher
  **/
@@ -62,7 +62,7 @@ function exec_admin_menu_dist($get=array(),$post=array()){
 						die(json_encode([
 							'status' => 'error',
 							'code' => 400,
-							'message' => 'Formato JSON inv·lido'
+							'message' => 'Formato JSON inv√°lido'
 						]));
 					}
 				} else {
@@ -87,7 +87,7 @@ function exec_admin_menu_dist($get=array(),$post=array()){
 			die(json_encode([
 				'status' => 'error',
 				'code' => 400,
-				'message' => 'Estructura JSON inv·lida'
+				'message' => 'Estructura JSON inv√°lida'
 			]));
 		}
                  		

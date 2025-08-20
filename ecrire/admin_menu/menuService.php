@@ -8,15 +8,13 @@ class MenuService {
     private $apis;
     private $SubMenu;
     private $idRol;
-    public $data;
 
-    public function __construct($data) {
-        $this->data = $data;
+    public function __construct() {
         $this->apis = new General('apis_menu');
         $this->SubMenu = new General('apis_submenus');
-        $this->idRol = $this->getIdRol($this->data['tipo']);
+        //$this->idRol = $this->getIdRol($this->data['tipo']);
     }
-      private function getIdRol($arg1) {
+    private function getIdRol($arg1) {
         $sql = sql_select('idRol', 'apis_roles', 'tipo = ' . sql_quote($arg1));
         if (!$sql) {
           throw new Exception('Error al consultar roles');
@@ -42,14 +40,13 @@ class MenuService {
 					  $idMenu =$this->apis->guardarDatos($chartic);
 					 return $idMenu;
 					} catch (Exception $e) {
-						$records['data'] = array('status' => '401', 'error' => $e->getMessage());
+						$records['data'] = array('status' => 401, 'error' => $e->getMessage());
 					  header('Content-Type: application/json');
 					  http_response_code(401);
 					  echo json_encode($records);
 					  exit;
 					}
     }
-
     public function updateMenu($data) {
         if (!is_array($data)) {
             throw new Exception('El parámetro $data debe ser un array');
@@ -62,7 +59,6 @@ class MenuService {
 					);	
         $this->apis->actualizarDatos($chartic,'idMenu',$data['idMenu']);
     }
-	
 	public function addSubMenu($data) {
 		$chartic=array();
 		if (!is_array($data)) {
@@ -99,7 +95,7 @@ class MenuService {
 					);	
         $this->SubMenu->actualizarDatos($chartic,'idSubmenu',$data['idSubmenu']);
     }
-   public function deleteSubMenu($data) {
+    public function deleteSubMenu($data) {
         sql_delete("apis_submenus", "idSubmenu=" . intval($data['idSubmenu']));
     }
 	
@@ -107,9 +103,9 @@ class MenuService {
         sql_delete("apis_menu", "idMenu=" . intval($data['idMenu']));
     }
 
-    public function getMenu() {
+    public function getMenu($data) {
         try {
-            $menusMain = $this->getMenusMain();
+            $menusMain = $this->getMenusMain($data);
             return array('Menus' => $menusMain);
         } catch (Exception $e) {
             return array('error' => $e->getMessage());
@@ -184,10 +180,10 @@ class MenuService {
 		  }
 		}
 	
-	private function getMenusMain() {
+	private function getMenusMain($data) {
     $sql = sql_select("DISTINCT M.idMenu,M.key,M.label,M.isTitle,M.icon",
       'apis_autorizaciones as A,apis_roles as R,apis_menu AS M',
-      "A.idRol='" . intval($this->idRol) . "' 
+      "A.idRol='" . intval($data['idRol']) . "' 
       AND R.idRol=A.idRol 
       AND NULLIF(A.c,'')='S' AND M.status='Active' ORDER BY M.idMenu");
     $menusMain = array();
