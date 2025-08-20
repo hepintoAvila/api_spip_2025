@@ -110,6 +110,259 @@ API SPIP 2025 es una API RESTful para interactuar con el sistema de gestión de 
             },
    		]
  }}`
+
+## Endpoint Description
+
+This endpoint allows the administrator to manage permissions within the application. It is executed via an HTTP POST request, and it is specifically designed to handle various operations related to user roles and permissions.
+
+### Request Parameters
+
+The request includes the following parameters:
+
+- `exec`: Specifies the execution context, in this case, `admin_permisos`.
+    
+- `opcion`: Encodes the operation type, which is related to user role management.
+    
+- `accion`: Indicates the action to be performed, here it is set to `admin_permisos`.
+    
+- `bonjour`: A custom parameter that is set to `oui`.
+    
+- `_SPIP_PAGE`: The page context for the request, which is `admin_permisos`.
+    
+- `action`: A boolean flag indicating whether the action should be executed.
+    
+- `var_ajax`: Indicates that the request is an AJAX call, with the value `form`.
+    
+
+### Response Structure
+
+Upon a successful request, the server responds with a status code of `200` and a `Content-Type` of `text/html`. The response body contains a JSON object with the following structure:
+
+``` json
+{
+  "Permisos": [
+    {
+      "query": "",
+      "add": "",
+      "update": "",
+      "delete": "",
+      "id_autorizacion": "",
+      "menu": "",
+      "submenu": ""
+    }
+  ]
+}
+
+ ```
+
+### Response Fields
+
+- `Permisos`: An array containing permission objects. Each object may include the following fields:
+    
+    - `query`: Represents the query associated with the permissions.
+        
+    - `add`: Indicates whether the add permission is granted.
+        
+    - `update`: Indicates whether the update permission is granted.
+        
+    - `delete`: Indicates whether the delete permission is granted.
+        
+    - `id_autorizacion`: The identifier for the authorization.
+        
+    - `menu`: The main menu associated with the permissions.
+        
+    - `submenu`: The submenu associated with the permissions.
+        
+
+### Usage of Response Fields
+
+The fields returned in the `Permisos` array can be utilized in subsequent requests to determine the specific permissions available to a user. For example:
+
+- Use the `add`, `update`, and `delete` fields to check if the user has the necessary permissions to perform these actions on resources.
+    
+- The `id_autorizacion` can be referenced in other API calls that require authorization checks.
+    
+
+This structured response allows for dynamic permission handling based on the user's role, enabling a more secure and flexible application environment.
+
+## Endpoint
+
+**POST** `{{urlEvaluaSoft}}?exec=admin_permisos&opcion=Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z&accion=YWRtaW5fcGVybWlzb3M=&bonjour=oui&_SPIP_PAGE=admin_permisos&action=true&var_ajax=form`
+
+## Description
+
+This endpoint is used to manage permissions within the application. It allows administrators to perform various operations related to user roles and permissions.
+
+## Request Parameters
+
+The following query parameters are expected in the request:
+
+- **exec**: Specifies the execution context (e.g., `admin_permisos`).
+    
+- **opcion**: Encodes the option for user roles (e.g., `Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z`).
+    
+- **accion**: Encodes the action to be performed (e.g., `YWRtaW5fcGVybWlzb3M=`).
+    
+- **bonjour**: A flag parameter (e.g., `oui`).
+    
+- **_SPIP_PAGE**: Indicates the specific admin page (e.g., `admin_permisos`).
+    
+- **action**: A boolean flag indicating the action status (e.g., `true`).
+    
+- **var_ajax**: Indicates that the request is an AJAX call (e.g., `form`).
+    
+
+## Response
+
+Upon a successful request, the server responds with a status code of `200` and a content type of `text/html`. The response body includes a JSON object containing permissions information:
+
+``` json
+{
+  "Permisos": [
+    {
+      "query": "",
+      "add": "",
+      "update": "",
+      "delete": "",
+      "id_autorizacion": "",
+      "menu": "",
+      "submenu": ""
+    }
+  ]
+}
+
+ ```
+
+### Response Fields
+
+- **Permisos**: An array of permission objects, each containing:
+    
+    - **query**: The query related to the permission.
+        
+    - **add**: The permission to add.
+        
+    - **update**: The permission to update.
+        
+    - **delete**: The permission to delete.
+        
+    - **id_autorizacion**: The authorization ID.
+        
+    - **menu**: The associated menu.
+        
+    - **submenu**: The associated submenu.
+        
+
+## Notes
+
+- Ensure that the required parameters are correctly encoded and included in the request.
+    
+- The response structure may vary based on the permissions defined in the system.
+    
+- This endpoint is intended for use by administrators only.
+    
+
+## Example
+
+Here is an example of a request to this endpoint:
+
+``` http
+POST {{urlEvaluaSoft}}?exec=admin_permisos&opcion=Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z&accion=YWRtaW5fcGVybWlzb3M=&bonjour=oui&_SPIP_PAGE=admin_permisos&action=true&var_ajax=form
+
+ ```
+
+The expected response would be a JSON object with permission details as outlined above.
+
+This endpoint is used to manage permissions for users in the application. It allows the administrator to perform various operations related to user roles and permissions.
+
+### Request
+
+**Method:** POST  
+**URL:** `{{urlEvaluaSoft}}?exec=admin_permisos&opcion=Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z&accion=YWRtaW5fcGVybWlzb3M=&bonjour=oui&_SPIP_PAGE=admin_permisos&action=true&var_ajax=form`
+
+#### Query Parameters
+
+- `exec`: Specifies the execution context, in this case, `admin_permisos`.
+    
+- `opcion`: Encoded string representing the operation type, here it indicates user roles management.
+    
+- `accion`: Encoded string indicating the action to be performed, which is related to admin permissions.
+    
+- `bonjour`: A parameter that may indicate a greeting or a session check.
+    
+- `_SPIP_PAGE`: Specifies the page context, here it is `admin_permisos`.
+    
+- `action`: A boolean parameter indicating whether the action is to be executed.
+    
+- `var_ajax`: Indicates that the request is made via AJAX, with the value `form`.
+    
+
+### Expected Response
+
+Upon a successful request, the server will respond with a JSON object containing the permissions structure.
+
+#### Response Structure
+
+``` json
+{
+  "Permisos": [
+    {
+      "query": "",
+      "add": "",
+      "update": "",
+      "delete": "",
+      "id_autorizacion": "",
+      "menu": "",
+      "submenu": ""
+    }
+  ]
+}
+
+ ```
+
+- `Permisos`: An array containing permission objects.
+    
+    - `query`: A string that may hold the query related to permissions.
+        
+    - `add`: A string indicating permission to add.
+        
+    - `update`: A string indicating permission to update.
+        
+    - `delete`: A string indicating permission to delete.
+        
+    - `id_autorizacion`: A string representing the authorization ID.
+        
+    - `menu`: A string representing the main menu associated with the permissions.
+        
+    - `submenu`: A string representing any sub-menu associated with the permissions.
+        
+
+### Example Request
+
+``` http
+POST {{urlEvaluaSoft}}?exec=admin_permisos&opcion=Y29uc3VsdGFyX3JvbGVzX3VzdWFyaW9z&accion=YWRtaW5fcGVybWlzb3M=&bonjour=oui&_SPIP_PAGE=admin_permisos&action=true&var_ajax=form
+
+ ```
+
+### Example Response
+
+``` json
+{
+  "Permisos": [
+    {
+      "query": "",
+      "add": "",
+      "update": "",
+      "delete": "",
+      "id_autorizacion": "",
+      "menu": "",
+      "submenu": ""
+    }
+  ]
+}
+
+ ```
+
+This endpoint is crucial for managing user roles and ensuring that permissions are correctly assigned within the application.
 ## API Key
 
 La API utiliza una clave de API para autenticar las solicitudes. Puedes obtener una clave de API mediante el endpoint `/api2025/admin_login`.
