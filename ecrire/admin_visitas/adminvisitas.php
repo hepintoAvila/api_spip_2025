@@ -32,7 +32,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 		
 function admin_visitas_adminvisitas_dist($opcion=string,$data=array()){
-				
+				 
 				include_spip('ecrire/admin_visitas/visitasService');
 				//INSTANCIAS INVOLUNCRADAS
 
@@ -60,6 +60,7 @@ function admin_visitas_adminvisitas_dist($opcion=string,$data=array()){
 				$chartic['jornada']=$app_visitaService->getIdJornada($data['fecha_creacion']);
 				$chartic['ubicacion']=$app_visitaService->getIdsVisita('ubicacion',$data['ubicacion']);
 				$chartic['programa']=$app_visitaService->getIdsVisita('programa',$data['programa']);
+				
 				$app_visitaService->addVisitas($chartic);				
 				$resultado =$app_visitaService->getVisitas();					
 				$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de Visitas')); 	

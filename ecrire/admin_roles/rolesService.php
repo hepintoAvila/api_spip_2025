@@ -9,15 +9,42 @@ class RolService {
     public $data;
 
     public function __construct($data) {
-        $this->data = $data;
+     $this->data = $data;
      $this->apis = new General('apis_roles');
 	}
 	public function addRoles($chartic){
-		$apis->guardarDatos($chartic);
-	}	
-	public function updateRoles($chartic,$arg1,$arg2){
-		$apis->actualizarDatos($chartic,$arg1,$arg2);
+		$this->apis->guardarDatos($chartic);
 	}
+	public function updateRoles($data){
+			if (!is_array($data)) {
+				throw new Exception('El parámetro $data debe ser un array');
+			}
+
+			// Validar que el id_turno esté presente en el array
+			if (!isset($data['idRol'])) {
+				throw new Exception('El parámetro idRol es obligatorio');
+			}
+
+			// Crear el array de datos para actualizar
+			$chartic = array();
+			foreach ($data as $key => $value) {
+				// Ignorar el id_turno ya que se utiliza para la condición de actualización
+				if ($key !== 'idRol') {
+					$chartic[$key] = $value;
+				}
+			}
+
+			try {
+				$this->apis->actualizarDatos($chartic, 'idRol', $data['idRol']);
+			} catch (Exception $e) {
+				$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+				header('Content-Type: application/json');
+				http_response_code(401);
+				echo json_encode($records);
+				exit;
+			}
+		}	
+	
 	public function deleteRoles($arg1){
 		sql_delete("apis_roles","idRol=" . intval($arg1));
 	}

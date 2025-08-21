@@ -75,6 +75,11 @@ function admin_usuarios_adminusuarios_dist($opcion=string,$data=array()){
 					$resultado =$app_usuarioService->getUsuarios();					
 					$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de usuario')); 	
 					echo $var;				
+			case 'actualizapass':
+					//$app_usuarioService->deleteMenu($data['id_visita']);
+					$resultado =$app_usuarioService->getUsuarios();					
+					$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de usuario')); 	
+					echo $var;				
 			break;
 		}
 

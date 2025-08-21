@@ -23,7 +23,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 		include_spip('inc/actions');
 		
-function exec_admin_menu_dist($get=array(),$post=array()){
+function exec_admin_pcs_dist($get=array(),$post=array()){
 				 $credentials = charger_fonction('credentials', 'authorization');
 				 $resdataCredencials = $credentials();
 				try {
@@ -81,8 +81,10 @@ function exec_admin_menu_dist($get=array(),$post=array()){
 			 echo json_encode($records);
 			 return;
 		}
-		 $adminmenu = charger_fonction('adminmenu', 'admin_menu');
-		$json = $adminmenu($opcion, $data,$resdataCredencials);
+		
+		
+		 $adminpcs = charger_fonction('adminpcs', 'admin_pcs');
+		$json = $adminpcs($opcion, $data,$resdataCredencials);
 		if (!isset($json['status']) || !isset($json['type']) || !isset($json['data']) || !isset($json['message'])) {
 			die(json_encode([
 				'status' => 'error',

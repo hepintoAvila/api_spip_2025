@@ -16,8 +16,7 @@
  *
  * @package SPIP\Core\Rechercher
  **/
-use Spip\Chiffrer\SpipCles;
-
+ 
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
@@ -31,39 +30,30 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 		
 		
-function admin_roles_adminroles_dist($opcion=string,$data=array(),$resdataCredencials=array()){
-				
-				include_spip('ecrire/admin_roles/rolesService');
+function admin_pcs_adminpcs_dist($opcion,$data=array(),$resdataCredencials=array()){
+			  
+				include_spip('ecrire/admin_pcs/pcsService');
 				//INSTANCIAS INVOLUNCRADAS
 
-				$app_rolService = new RolService($resdataCredencials);	
-				// array
-				$chartic=array();
+				$app_pcService = new PcsService();	
+
 		switch ($opcion) {
-			case 'consultar_roles':
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js($resultado);
-				echo $var;
+			case 'consulta_pcs':
+				$resultado =$app_pcService->getPcs();					
+				
 				break;
-			case 'add_roles':
-				$chartic['tipo']=$data['rol'];
-				$app_rolService->addRoles($chartic);				
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de Visitas')); 	
-				echo $var;
+			case 'add_pcs':
+					$app_pcService->addPcs($data);
+					$app_pcService->getPcs();					
+					
 				break;			
-			case 'editar_roles':
-				$chartic['tipo']=$data['rol'];
-				$app_rolService->updateRoles($chartic,'idRol',$data['idRol']);
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js($resultado);
-				echo $var;
+			case 'update_pcs':
+					$app_pcService->updatePcs($data);
+					$app_pcService->getPcs();
 				break;			
-			case 'delete_roles':
-				$app_rolService->deleteRoles($data['idRol']);
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de Visitas')); 	
-				echo $var;				
+			case 'delete_pcs':
+					$app_pcService->deletePcs($data);
+					$app_pcService->getPcs();		
 			break;
 		}
 

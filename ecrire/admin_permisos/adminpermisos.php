@@ -30,10 +30,34 @@ function admin_permisos_adminpermisos_dist($opcion=string,$data=array(),$resdata
 		
 		switch ($opcion) {
 
+		case 'copiar_roles_usuarios':
+			$resultado =$app_permisosservice->getPermisos();						
+			$var = var2js($resultado); 	
+			echo $var;	
+		break;	
+		case 'add_roles_usuarios':
+
+				$app_permisosservice->AddPermisos($data);
+				$resultado =$app_permisosservice->getPermisos();						
+				$var = var2js($resultado); 	
+				echo $var;				
+		break;		
+		case 'update_roles_usuarios':
+				$app_permisosservice->updatePermisos($data);
+				$resultado =$app_permisosservice->getPermisos();						
+				$var = var2js($resultado); 	
+				echo $var;				
+		break;	
 		case 'consultar_roles_usuarios':
 				$resultado =$app_permisosservice->getPermisos();						
 				$var = var2js($resultado); 	
 				echo $var;				
+		break;
+		case 'copiar_roles_usuarios':
+				$resultado =$app_permisosservice->copyRoles($data);
+				$resultcopy =$app_permisosservice->getPermisos();						
+				$var = var2js($resultcopy); 	
+				echo $var;			
 		break;
 		}	
 			

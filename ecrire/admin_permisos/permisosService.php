@@ -14,6 +14,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 class PermisoService {
     private $app;
     private $apis;
+    private $autoriza;
     public $data;
     private $aut;
     private $table;
@@ -21,18 +22,54 @@ class PermisoService {
     public function __construct($data) {
         $this->data = $data;
         $this->apis = new General('apis_roles');
+        $this->autoriza = new General('apis_autorizaciones');
 		$this->table = 'apis_menu AS M, apis_submenus AS S, apis_autorizaciones AS A, apis_roles as R';
 		$this->aut = $data;
     }
 
-    public function addPermisos($chartic){
-        $this->apis->guardarDatos($chartic);
+    public function addPermisos($data){
+		$chartic=array();
+		if (!is_array($data)) {
+            throw new Exception('El parámetro $chartic debe ser un array');
+        }
+		$chartic['idMenu']=$this->getId('idMenu','apis_menu',$data['menu']);
+		$chartic['idSubmenu']=$this->getId('idSubmenu','apis_submenus',$data['submenu']);
+		$chartic['idRol']=$this->getIdRol($data['rol']);
+		$chartic['c']=$data['query'];
+		$chartic['u']=$data['update'];
+		$chartic['d']=$data['delete'];
+		$chartic['a']=$data['add'];
+        $this->autoriza->guardarDatos($chartic);
     }
+	public function updatePermisos($data){
+			if (!is_array($data)) {
+				throw new Exception('El parámetro $data debe ser un array');
+			}
 
-    public function updatePermisos($chartic,$arg1,$arg2){
-        $this->apis->actualizarDatos($chartic,$arg1,$arg2);
-    }
+			// Validar que el id_turno esté presente en el array
+			if (!isset($data['id_autorizacion'])) {
+				throw new Exception('El parámetro id_autorizacion es obligatorio');
+			}
 
+			// Crear el array de datos para actualizar
+			$chartic = array();
+			foreach ($data as $key => $value) {
+				// Ignorar el id_turno ya que se utiliza para la condición de actualización
+				if ($key !== 'id_autorizacion') {
+					$chartic[$key] = $value;
+				}
+			}
+
+			try {
+				$this->apis->actualizarDatos($chartic, 'id_autorizacion', $data['id_autorizacion']);
+			} catch (Exception $e) {
+				$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+				header('Content-Type: application/json');
+				http_response_code(401);
+				echo json_encode($records);
+				exit;
+			}
+		}
     public function deletePermiso($arg1){
         sql_delete("apis_roles","id_visita=" . intval($arg1));
     }
@@ -129,10 +166,32 @@ class PermisoService {
                 'add' => $row['a'],
                 'update' => $row['u'],
                 'delete' => $row['d'],
+                'id_autorizacion' => $row['id_autorizacion'],
                 'menu' => $row['menu'],
                 'submenu' => $submenuPermiso
             );
         }, $roles);
         return array('Permisos' => $permisos);
     }
+    
+	private function getIdRol($tipo) {
+        $sql = sql_select('idRol', 'apis_roles', 'tipo = ' . sql_quote($tipo));
+        if (!$sql) {
+            throw new Exception('Error al consultar roles');
+        }
+        $row = sql_fetch($sql);
+        if (!$row) {
+            throw new Exception('No se encontraron roles para el usuario');
+        }
+        return $row['idRol'];
+    }
+	private function getId($arg1,$arg2,$arg3) {
+		
+		$sql = sql_select(''.$arg1.' AS id',''.$arg2.'','label='.sql_quote($arg3).'');
+		$row = sql_fetch($sql);
+		if (!$row) {
+		  throw new Exception('No se encontró el rol');
+		}
+		return $row['id']; 
+	  }
 }

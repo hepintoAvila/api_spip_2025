@@ -16,8 +16,7 @@
  *
  * @package SPIP\Core\Rechercher
  **/
-use Spip\Chiffrer\SpipCles;
-
+ 
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
@@ -31,39 +30,28 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 		
 		
-function admin_roles_adminroles_dist($opcion=string,$data=array(),$resdataCredencials=array()){
-				
-				include_spip('ecrire/admin_roles/rolesService');
+function admin_turnos_adminturnos_dist($opcion,$data=array(),$resdataCredencials=array()){
+				include_spip('ecrire/admin_turnos/turnosService');
 				//INSTANCIAS INVOLUNCRADAS
+//print_r($opcion);
+				$app_turnosService = new TurnosService();	
 
-				$app_rolService = new RolService($resdataCredencials);	
-				// array
-				$chartic=array();
 		switch ($opcion) {
-			case 'consultar_roles':
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js($resultado);
-				echo $var;
+			case 'consulta_turnos':
+				$app_turnosService->getTurnos();						
 				break;
-			case 'add_roles':
-				$chartic['tipo']=$data['rol'];
-				$app_rolService->addRoles($chartic);				
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de Visitas')); 	
-				echo $var;
+			case 'add_turno':
+					$app_turnosService->addTurnos($data);
+					$app_turnosService->getTurnos();					
+					
 				break;			
-			case 'editar_roles':
-				$chartic['tipo']=$data['rol'];
-				$app_rolService->updateRoles($chartic,'idRol',$data['idRol']);
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js($resultado);
-				echo $var;
+			case 'update_turno':
+					$app_turnosService->updateTurnos($data);
+					$app_turnosService->getTurnos();
 				break;			
-			case 'delete_roles':
-				$app_rolService->deleteRoles($data['idRol']);
-				$resultado =$app_rolService->getRoles();					
-				$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de Visitas')); 	
-				echo $var;				
+			case 'delete_turnos':
+					$app_turnosService->deleteTurnos($data);
+					$app_turnosService->getTurnos();		
 			break;
 		}
 
