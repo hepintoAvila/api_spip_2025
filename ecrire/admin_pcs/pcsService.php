@@ -34,34 +34,42 @@ class PcsService {
 					}
 	}	
 	public function updatePcs($data){
-				$chartic=array();
-		if (!is_array($data)) {
-            throw new Exception('El parámetro $data debe ser un array');
-        }
-			$chartic=array(
-					  'numero' => $data['numero'],
-					  'ip' => $data['ip'],
-					  'estado' => $data['estado']
-					);
-					try {
-					  $this->apis->actualizarDatos($chartic,'id_pc',$data['id_pc']);
-					} catch (Exception $e) {
-						$records['data'] = array('status' => 401, 'error' => $e->getMessage());
-					  header('Content-Type: application/json');
-					  http_response_code(401);
-					  echo json_encode($records);
-					  exit;
-					}
-		
-	}
+			if (!is_array($data)) {
+				throw new Exception('El parámetro $data debe ser un array');
+			}
+
+			// Validar que el id_turno esté presente en el array
+			if (!isset($data['id_pc'])) {
+				throw new Exception('El parámetro id_turno es obligatorio');
+			}
+
+			// Crear el array de datos para actualizar
+			$chartic = array();
+			foreach ($data as $key => $value) {
+				// Ignorar el id_turno ya que se utiliza para la condición de actualización
+				if ($key !== 'id_pc') {
+					$chartic[$key] = $value;
+				}
+			}
+ 
+			try {
+				
+				$this->apis->actualizarDatos($chartic, 'id_pc', $data['id_pc']);
+			} catch (Exception $e) {
+				$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+				header('Content-Type: application/json');
+				http_response_code(401);
+				echo json_encode($records);
+				exit;
+			}
+		}
 	public function deletePcs($data){
 		sql_delete("upc_pcs","id_pc=" . intval($data['id_pc']));
 	}
- 
-		public function getPcs() {
+	public function getPcs() {
 		  $from = 'upc_pcs AS R';
 		  $select = 'R.id_pc,R.numero,R.ip,R.estado';
-		  $where = 'R.status = "Activo" ORDER BY R.id_pc DESC';
+		  $where = 'R.status = "Activo" ORDER BY R.maj DESC';
 		  $sql = sql_select($select, $from, $where);
 
 		  try {

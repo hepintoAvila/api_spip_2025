@@ -10,7 +10,7 @@ class LoginService {
 	public $data;
 	
     public function __construct($data) {
-     $this->apisKey = new ApiKeyManager();
+     $this->apisKey = new ApiKeyManager($data);
      $this->data=$data;
 	}
 	public function addKey(){

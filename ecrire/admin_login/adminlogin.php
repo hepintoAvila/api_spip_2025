@@ -16,7 +16,8 @@
  *
  * @package SPIP\Core\Rechercher
  **/
-use Spip\Chiffrer\SpipCles;
+
+
 
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
@@ -31,39 +32,77 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 		
 		
-function admin_login_adminlogin_dist($opcion=string,$data=array()){
-				  
+function admin_login_adminlogin_dist($get){
+		$opcion = base64_decode($get['opcion']);
+		
+		$session_login=$_SERVER['PHP_AUTH_USER'];
+		$session_password=$_SERVER['PHP_AUTH_PW'];
+		
+		include_spip('inc/auth');
+		$aut = auth_identifier_login($session_login, $session_password);
+		
+	 
+ 			
 				include_spip('ecrire/admin_login/loginService');
 				include_spip('ecrire/admin_menu/menuService');
 				include_spip('ecrire/admin_permisos/permisosService');
 				//INSTANCIAS INVOLUNCRADAS
 
-				$app_loginService = new LoginService($data);	
-				$app_menuService = new MenuService($data);	
-				$app_permisosService = new PermisoService($data);	
+				$app_loginService = new LoginService($aut);	
+				$app_menuService = new MenuService();	
+				$app_permisosService = new PermisoService($aut);	
 				// array
 				$chartic=array();
-
+		 
 		switch ($opcion) {
+			case 'login_auth':
+
+			print_r($opcion);
+				/*
+			$auth0 = new Auth0([
+				'domain' => $config['domain'],
+				'client_id' => $config['client_id'],
+				'client_secret' => $config['client_secret'],
+				'redirect_uri' => $config['redirect_uri'],
+			]);
+			;
+		
+			$config = new SdkConfiguration(
+			  strategy: SdkConfiguration::STRATEGY_API,
+			  domain: 'https://dev-873fuqcjuqhamk5d.us.auth0.com',
+			  audience: ['https://lacasadelbarbero.com.co/api2025/']
+			);
+
+			$auth0 = new Auth0($config);
+
+			$auth0->login();
+			//$token = $auth0->getAccessToken();
+			//$token = $auth0->decode($token);
+			
+			//$userInfo = $auth0->getUser();
+			*/
+			break;
 			case 'login':
-				
+				 
 				$encryptedData =$app_loginService->addKey();										
-				$Menus = $app_menuService->getMenu();										
+				$Menus = $app_menuService->getMenusUsuario($aut);										
 				$Permisos = $app_permisosService->getPermisos();										
 				$Auth['Auth']= array(
-				'Nom' => $data['nom'].'',
-				'Email' => $data['email'] ?? null,
-				'rol' => $data['tipo'],
+				'Nom' => $aut['nom'].'',
+				'Email' => $aut['email'] ?? null,
+				'rol' => $aut['tipo'],
 				'AppKey' =>$encryptedData,
 				);
-				if (!is_null($data)) {
+				if (!is_null($aut)) {
 						$records = array('status'=>200,'type' =>'success','message'=>'ok','message'=>'ok','data'=>array_merge($Auth,$Menus,$Permisos));
 					}else{
 						$records['data'] = array('status'=>402,'type' =>'error','message'=>'Error:: no existen datos');                           
 					}
 					$var = var2js($records);
-					echo $var;	
-				break;
+					echo $var;
+
+		break;
+				 
 		}
 
 	

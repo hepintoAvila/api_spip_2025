@@ -36,7 +36,7 @@ function admin_pcs_adminpcs_dist($opcion,$data=array(),$resdataCredencials=array
 				//INSTANCIAS INVOLUNCRADAS
 
 				$app_pcService = new PcsService();	
-
+ 
 		switch ($opcion) {
 			case 'consulta_pcs':
 				$resultado =$app_pcService->getPcs();					
@@ -48,6 +48,7 @@ function admin_pcs_adminpcs_dist($opcion,$data=array(),$resdataCredencials=array
 					
 				break;			
 			case 'update_pcs':
+		 
 					$app_pcService->updatePcs($data);
 					$app_pcService->getPcs();
 				break;			

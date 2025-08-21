@@ -8,6 +8,7 @@ class MenuService {
     private $apis;
     private $SubMenu;
     private $idRol;
+    private $data;
 
     public function __construct() {
         $this->apis = new General('apis_menu');
@@ -230,6 +231,27 @@ class MenuService {
     }
     return $menusMain;
   }	
+  	public function getMenusUsuario($data) {
+		 
+    $sql = sql_select("DISTINCT M.idMenu,M.key,M.label,M.isTitle,M.icon",
+      'apis_autorizaciones as A,apis_roles as R,apis_menu AS M',
+      "A.idRol='" . intval($data['id_rol']) . "' 
+      AND R.idRol=A.idRol 
+      AND NULLIF(A.c,'')='S' AND M.status='Active' ORDER BY M.idMenu");
+    $menusMain = array();
+    while ($r = sql_fetch($sql)) {
+      $children = $this->getChildren($r['idMenu']);
+      $menusMain[] = array(
+        'key' => $r['key'],
+        'label' => $r['label'],
+        'isTitle' => false,
+        'icon' => $r['icon'],
+        'badge' => array('variant' => 'error', 'text' => count($children)),
+        'children' => $children
+      );
+    }
+    return $menusMain;
+  }
 	private function getSubMenu($idMenu) {
     $sql = sql_select('S.key,S.label,S.icon,S.url,M.key AS parentKey,S.idSubmenu',
       'apis_menu AS M,apis_submenus AS S',
