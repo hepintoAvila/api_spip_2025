@@ -133,11 +133,9 @@ class MenuService {
     public function deleteSubMenu($data) {
         sql_delete("apis_submenus", "idSubmenu=" . intval($data['idSubmenu']));
     }
-	
     public function deleteMenus($data) {
         sql_delete("apis_menu", "idMenu=" . intval($data['idMenu']));
     }
-
     public function getMenu($data) {
         try {
             $menusMain = $this->getMenusMain($data);
@@ -146,8 +144,7 @@ class MenuService {
             return array('error' => $e->getMessage());
         }
     }	
- 	
-	public function getMenusUser($idUser) {
+ 	public function getMenusUser($idUser) {
 		  $from = 'apis_menu AS R';
 		  $select = 'R.idMenu,R.key,R.label,R.isTitle,R.icon,R.status';
 		  $where = 'R.status = "Active" ORDER BY R.idMenu DESC';
@@ -180,7 +177,6 @@ class MenuService {
 			return json_encode(array('error' => $e->getMessage()));
 		  }
 		}
-	
 	public function getMenus() {
 		  $from = 'apis_menu AS R';
 		  $select = 'R.idMenu,R.key,R.label,R.isTitle,R.icon,R.status';
@@ -214,7 +210,6 @@ class MenuService {
 			return json_encode(array('error' => $e->getMessage()));
 		  }
 		}
-	
 	private function getMenusMain($data) {
     $sql = sql_select("DISTINCT M.idMenu,M.key,M.label,M.isTitle,M.icon",
       'apis_autorizaciones as A,apis_roles as R,apis_menu AS M',
@@ -235,7 +230,6 @@ class MenuService {
     }
     return $menusMain;
   }	
-	
 	private function getSubMenu($idMenu) {
     $sql = sql_select('S.key,S.label,S.icon,S.url,M.key AS parentKey,S.idSubmenu',
       'apis_menu AS M,apis_submenus AS S',
@@ -255,7 +249,6 @@ class MenuService {
     }
     return $children;
   }	
-    
 	private function getChildren($idMenu) {
     $sql = sql_select('DISTINCT S.key,S.label,S.icon,S.url,M.key AS parentKey',
       'apis_menu AS M,apis_submenus AS S, apis_autorizaciones AS A,apis_roles as R',
