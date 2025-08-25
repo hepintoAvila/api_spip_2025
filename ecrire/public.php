@@ -256,12 +256,19 @@ if (isset($GLOBALS['_INC_PUBLIC']) and $GLOBALS['_INC_PUBLIC']) {
 					}
 				 
 				} else {
+					$json = json_decode(file_get_contents('php://input'), true);
+				if (json_last_error() === JSON_ERROR_NONE) {
+					$GLOBALS['_POST']=array('data'=>$json);
+					
+					// Procesar los datos
+				} 
+					   
 						$exec = $GLOBALS['_GET']['_SPIP_PAGE'];
 			
 						if ($var_f = tester_url_ecrire($exec)) {
 							include_spip('inc/actions');
 							$var_f = charger_fonction($var_f);
-							$var_f($GLOBALS['_GET']);
+							$var_f($GLOBALS['_GET'],$GLOBALS['_POST']);
 							exit;		
 						} else {
 							$var_f = charger_fonction('404');

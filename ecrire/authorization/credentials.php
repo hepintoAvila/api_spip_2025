@@ -23,22 +23,23 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 include_spip('inc/auth');
 function authorization_credentials_dist() {
-    
-          if (!function_exists('getallheaders')) {
-            function getallheaders() {
-                $headers = [];
-                foreach ($_SERVER as $key => $value) {
-                    if (strpos($key, 'HTTP_') === 0) {
-                        $header = str_replace('HTTP_', '', $key);
-                        $header = str_replace('_', '-', $header);
-                        $header = ucwords(strtolower($header));
-                        $headers[$header] = $value;
-                    }
-                }
-                    return $headers;
+	
+    if (!function_exists('getallheaders')) {
+        function getallheaders() {
+            $headers = [];
+            foreach ($_SERVER as $key => $value) {
+                if (strpos($key, 'HTTP_') === 0) {
+                    $header = str_replace('HTTP_', '', $key);
+                    $header = str_replace('_', '-', $header);
+                    $header = ucwords(strtolower($header));
+                    $headers[$header] = $value;
                 }
             }
- 				$headers = getallheaders();
+                return $headers;
+            }
+        }
+		$headers = getallheaders();
+
 				$authorization = $headers['Authorization'];
 				$auth = explode(' ', $authorization);
 				if ($auth[0] == 'Basic') {

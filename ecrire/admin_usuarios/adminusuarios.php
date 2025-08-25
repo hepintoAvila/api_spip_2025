@@ -46,6 +46,12 @@ function admin_usuarios_adminusuarios_dist($opcion=string,$data=array()){
 				$var = var2js($resultado);
 				echo $var;
 				break;
+				case 'consultar_estudiantes':
+				
+				$resultado =$app_usuarioService->getEstudiantes($data);					
+				$var = var2js($resultado);
+				echo $var;
+				break;
 			case 'add_usuario':
 				/*
 				$chartic['identificacion']=$data['identificacion'];

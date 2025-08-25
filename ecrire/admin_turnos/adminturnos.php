@@ -33,17 +33,19 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 function admin_turnos_adminturnos_dist($opcion,$data=array(),$resdataCredencials=array()){
 				include_spip('ecrire/admin_turnos/turnosService');
 				//INSTANCIAS INVOLUNCRADAS
-//print_r($opcion);
-				$app_turnosService = new TurnosService();	
 
+				$app_turnosService = new TurnosService();	
+		
 		switch ($opcion) {
+			case 'consulta_turnos_documento':
+				$app_turnosService->getTurnosEstudiante($data);						
+				break;
 			case 'consulta_turnos':
 				$app_turnosService->getTurnos();						
 				break;
 			case 'add_turno':
-					$app_turnosService->addTurnos($data);
-					$app_turnosService->getTurnos();					
-					
+				$app_turnosService->addTurnos($data);
+				$app_turnosService->getTurnosEstudiante($data);					
 				break;			
 			case 'update_turno':
 					$app_turnosService->updateTurnos($data);
@@ -56,4 +58,5 @@ function admin_turnos_adminturnos_dist($opcion,$data=array(),$resdataCredencials
 		}
 
 	
+		 
 }

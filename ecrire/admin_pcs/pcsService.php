@@ -69,7 +69,7 @@ class PcsService {
 	public function getPcs() {
 		  $from = 'upc_pcs AS R';
 		  $select = 'R.id_pc,R.numero,R.ip,R.estado';
-		  $where = 'R.status = "Activo" ORDER BY R.maj DESC';
+		  $where = 'R.status = "Activo" ORDER BY R.maj ASC';
 		  $sql = sql_select($select, $from, $where);
 
 		  try {
@@ -77,16 +77,16 @@ class PcsService {
 			while ($row = sql_fetch($sql)) {
 				$pcs[] = $row;
 			}
-			$datosPcs = array('Pc' => array());
+			$datosPcs = array('Pcs' => array());
 			foreach ($pcs as $val) {
-			  $datosPcs['Pc'][] = array(
+			  $datosPcs['Pcs'][] = array(
 				'id_pc' => $val['id_pc'],
 				'numero' => $val['numero'],
 				'ip' => $val['ip'],
 				'estado' => $val['estado'],
 			  );
 			}
-			if (!empty($datosPcs['Pc'])) {
+			if (!empty($datosPcs['Pcs'])) {
 				    $var = var2js(array('status'=>200,'type'=>'success','data'=>$datosPcs,'message'=>'Listado de Pcs')); 	
 					echo $var;
 				} else{

@@ -233,7 +233,7 @@ class MenuService {
   }	
   	public function getMenusUsuario($data) {
 		 
-    $sql = sql_select("DISTINCT M.idMenu,M.key,M.label,M.isTitle,M.icon",
+    $sql = sql_select("DISTINCT M.idMenu,M.key,M.label,M.isTitle,M.icon,M.entidad",
       'apis_autorizaciones as A,apis_roles as R,apis_menu AS M',
       "A.idRol='" . intval($data['id_rol']) . "' 
       AND R.idRol=A.idRol 
@@ -246,11 +246,12 @@ class MenuService {
         'label' => $r['label'],
         'isTitle' => false,
         'icon' => $r['icon'],
+        'entidad' => $r['entidad'],
         'badge' => array('variant' => 'error', 'text' => count($children)),
         'children' => $children
       );
     }
-    return $menusMain;
+    return array('Menu' => $menusMain);
   }
 	private function getSubMenu($idMenu) {
     $sql = sql_select('S.key,S.label,S.icon,S.url,M.key AS parentKey,S.idSubmenu',

@@ -13,7 +13,7 @@ class Authenticator {
 
   public function authenticate() {
     if (empty($this->login) || empty($this->password)) {
-      throw new Exception("Login y password son requeridos");
+      throw new Exception("Login y contraseña son requeridos");
     }
 	include_spip('inc/auth');
     $var_auth = auth_identifier_login($this->login, $this->password);

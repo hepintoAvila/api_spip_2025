@@ -40,9 +40,7 @@ function admin_login_adminlogin_dist($get){
 		
 		include_spip('inc/auth');
 		$aut = auth_identifier_login($session_login, $session_password);
-		
-	 
- 			
+				
 				include_spip('ecrire/admin_login/loginService');
 				include_spip('ecrire/admin_menu/menuService');
 				include_spip('ecrire/admin_permisos/permisosService');
@@ -90,7 +88,8 @@ function admin_login_adminlogin_dist($get){
 				$Auth['Auth']= array(
 				'Nom' => $aut['nom'].'',
 				'Email' => $aut['email'] ?? null,
-				'rol' => $aut['tipo'],
+				'Rol' => $aut['tipo'],
+				'status' => $aut['status'],
 				'AppKey' =>$encryptedData,
 				);
 				if (!is_null($aut)) {

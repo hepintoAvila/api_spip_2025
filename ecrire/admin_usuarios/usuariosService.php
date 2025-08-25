@@ -46,7 +46,7 @@ class UsuarioService {
 		sql_delete("api_auteurs","id_auteur=" . intval($arg1));
 	}
  
-		public function getUsuarios() {
+	public function getUsuarios() {
 		  $from = 'api_auteurs AS R';
 		  $select = 'R.id_auteur,R.nom AS nombres,R.email,R.login,R.tipo';
 		  $where = 'R.status = "Activo" ORDER BY R.id_auteur DESC';
@@ -72,6 +72,41 @@ class UsuarioService {
 				  return $records;
 				} else{
 					$records = array('status'=>404,'type'=>'error','data'=>array(),'message'=>'No existen registros de Usuarios');
+				  return $records;
+				}
+		  } catch (Exception $e) {
+			return json_encode(array('error' => $e->getMessage()));
+		  }
+		}
+		public function getEstudiantes($data) {
+		  $from = 'upc_estudiantes AS R';
+		  $select = 'R.id as id_estudiante, R.PEGE_DOCUMENTOIDENTIDAD AS documento,
+		  R.ESTUDIANTE AS nombres,R.PENG_EMAILINSTITUCIONAL as email,R.PROG_NOMBRE as programa,R.PEGE_TELEFONOCELULAR as celular';
+		  $where = 'R.PEGE_DOCUMENTOIDENTIDAD = "'.intval($data['documento']).'" AND R.status = "Activo" ORDER BY R.id DESC';
+		  $sql = sql_select($select, $from, $where);
+
+		  try {
+			$usuarios = array();
+			while ($row = sql_fetch($sql)) {
+				$usuarios[] = $row;
+			}
+			
+			$datosusuarios = array('Estudiantes' => array());
+			foreach ($usuarios as $val) {
+			  $datosusuarios['Estudiantes'][] = array(
+				'id_estudiante' => $val['id_estudiante'],
+				'documento' => $val['documento'],
+				'nombres' => $val['nombres'],
+				'email' => $val['email'],
+				'programa' => $val['programa'],
+				'celular' => $val['celular'],
+			  );
+			}
+			if (!empty($datosusuarios['Estudiantes'])) {
+					$records = array('status'=>200,'type'=>'success','data'=>$datosusuarios, 'message'=>'Listodo de Estudiantes');
+				  return $records;
+				} else{
+					$records = array('status'=>404,'type'=>'error','data'=>array(),'message'=>'No existen registros de Estudiantes');
 				  return $records;
 				}
 		  } catch (Exception $e) {

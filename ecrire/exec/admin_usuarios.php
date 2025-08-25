@@ -23,7 +23,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 		include_spip('inc/actions');
 		
-function exec_admin_usuarios_dist(){
+function exec_admin_usuarios_dist($post,$get){
 				 $credentials = charger_fonction('credentials', 'authorization');
 				 $resdataCredencials = $credentials();
 				try {
@@ -84,7 +84,6 @@ function exec_admin_usuarios_dist(){
 			 echo json_encode($records);
 			 exit;
 		}
-		  
 		 $adminusuarios = charger_fonction('adminusuarios', 'admin_usuarios');
 		 $json = $adminusuarios($opcion,$data);
 		if (!isset($json['status']) || !isset($json['type']) || !isset($json['data']) || !isset($json['message'])) {
