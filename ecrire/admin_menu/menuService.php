@@ -219,7 +219,7 @@ class MenuService {
       AND NULLIF(A.c,'')='S' AND M.status='Active' ORDER BY M.idMenu");
     $menusMain = array();
     while ($r = sql_fetch($sql)) {
-      $children = $this->getChildren($r['idMenu']);
+      $children = $this->getChildren($r['idMenu'],$data['id_rol']);
       $menusMain[] = array(
         'key' => $r['key'],
         'label' => $r['label'],
@@ -232,15 +232,17 @@ class MenuService {
     return $menusMain;
   }	
   	public function getMenusUsuario($data) {
-		 
+		 //print_r($data);
     $sql = sql_select("DISTINCT M.idMenu,M.key,M.label,M.isTitle,M.icon,M.entidad",
-      'apis_autorizaciones as A,apis_roles as R,apis_menu AS M',
+      'apis_autorizaciones as A,apis_roles as R,apis_menu AS M,apis_submenus AS SM',
       "A.idRol='" . intval($data['id_rol']) . "' 
       AND R.idRol=A.idRol 
+      AND A.idMenu=M.idMenu 
+      AND A.idSubmenu=SM.idSubmenu
       AND NULLIF(A.c,'')='S' AND M.status='Active' ORDER BY M.idMenu");
     $menusMain = array();
     while ($r = sql_fetch($sql)) {
-      $children = $this->getChildren($r['idMenu']);
+      $children = $this->getChildren($r['idMenu'],$data['id_rol']);
       $menusMain[] = array(
         'key' => $r['key'],
         'label' => $r['label'],
@@ -272,10 +274,10 @@ class MenuService {
     }
     return $children;
   }	
-	private function getChildren($idMenu) {
+	private function getChildren($idMenu,$idRol) {
     $sql = sql_select('DISTINCT S.key,S.label,S.icon,S.url,M.key AS parentKey',
       'apis_menu AS M,apis_submenus AS S, apis_autorizaciones AS A,apis_roles as R',
-      "R.idRol='" . intval($this->idRol) . "' 
+      "R.idRol='" . intval($idRol) . "' 
       AND A.idRol= R.idRol 
       AND M.idMenu= A.idMenu 
       AND A.idMenu='" . intval($idMenu) . "'  

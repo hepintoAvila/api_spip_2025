@@ -30,33 +30,33 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 		
 		
-function admin_turnos_adminturnos_dist($opcion,$data=array(),$resdataCredencials=array()){
-				include_spip('ecrire/admin_turnos/turnosService');
+function admin_pcs_adminpcs_dist($opcion,$data=array(),$resdataCredencials=array()){
+			  
+				include_spip('ecrire/admin_pcs/pcsService');
 				//INSTANCIAS INVOLUNCRADAS
 
-				$app_turnosService = new TurnosService($resdataCredencials);	
-		 
+				$app_pcService = new PcsService();	
+ 
 		switch ($opcion) {
-			case 'consulta_turnos_documento':
-				$app_turnosService->getTurnosEstudiante($data);						
+			case 'consulta_pcs':
+				$resultado =$app_pcService->getPcs();					
+				
 				break;
-			case 'consulta_turnos':
-				$app_turnosService->getTurnos();						
-				break;
-			case 'add_turno':
-				$app_turnosService->addTurnos($data);
-				//$app_turnosService->getTurnosEstudiante($data);					
+			case 'add_pcs':
+					$app_pcService->addPcs($data);
+					$app_pcService->getPcs();					
+					
 				break;			
-			case 'update_turno':
-					$app_turnosService->updateTurnos($data);
-					$app_turnosService->getTurnos();
+			case 'update_pcs':
+		 
+					$app_pcService->updatePcs($data);
+					$app_pcService->getPcs();
 				break;			
-			case 'delete_turnos':
-					$app_turnosService->deleteTurnos($data);
-					$app_turnosService->getTurnos();		
+			case 'delete_pcs':
+					$app_pcService->deletePcs($data);
+					$app_pcService->getPcs();		
 			break;
 		}
 
 	
-		 
 }

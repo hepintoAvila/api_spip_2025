@@ -47,23 +47,15 @@ function admin_usuarios_adminusuarios_dist($opcion=string,$data=array()){
 				echo $var;
 				break;
 				case 'consultar_estudiantes':
-				
 				$resultado =$app_usuarioService->getEstudiantes($data);					
 				$var = var2js($resultado);
 				echo $var;
 				break;
-			case 'add_usuario':
-				/*
-				$chartic['identificacion']=$data['identificacion'];
-				$chartic['tipo_visita']=$app_usuarioService->getIdsVisita('tipo_visita',$data['tipo_visita']);
-				$chartic['jornada']=$app_usuarioService->getIdJornada($data['fecha_creacion']);
-				$chartic['ubicacion']=$app_usuarioService->getIdsVisita('ubicacion',$data['ubicacion']);
-				$chartic['programa']=$app_usuarioService->getIdsVisita('programa',$data['programa']);
-				$app_usuarioService->addVisitas($chartic);				
-				*/
-				$resultado =$app_usuarioService->getUsuarios();					
-				$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de Visitas')); 	
-				echo $var;
+			case 'add_estudiante':
+				$app_usuarioService->addEstudiante($data);					
+				$resultado =$app_usuarioService->getEstudiantes($data);					
+				$var = var2js($resultado);
+				echo $var;				
 				break;			
 			case 'update_usuario':
 				/*

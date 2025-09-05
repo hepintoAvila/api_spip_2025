@@ -9,8 +9,14 @@ class VisitaService {
     public function __construct() {
      $this->apis = new General('upc_libros_visita');
 	}
-	public function addVisitas($chartic){
-		$this->apis->guardarDatos($chartic);
+	public function addVisitas($data){
+				$chartic=array();
+				$chartic['identificacion']=$data['identificacion'];
+				$chartic['tipo_visita']=$data['tipo_visita'];
+				$chartic['jornada']=$this->getIdJornada($data['fecha_creacion']);
+				$chartic['ubicacion']=$this->getIdsVisita('ubicacion',$data['ubicacion']);
+				$chartic['programa']=$this->getIdsVisita('programa',$data['programa']);
+				$this->apis->guardarDatos($chartic);
 	}	
 	public function updateVisitas($data){
 			if (!is_array($data)) {
@@ -44,8 +50,7 @@ class VisitaService {
 	public function deleteVisitas($arg1){
 		sql_delete("upc_libros_visita","id_visita=" . intval($arg1));
 	}
-	
-		public function consultaDocumento($identificacion){
+	public function consultaDocumento($identificacion){
 		  $usuario = array();
 		  $from = 'upc_usuarios_biblioteca_koha AS R';
 		  $select = 'R.id,R.prog_nombre AS programa,R.nombres,R.apellidos,R.email,R.celular';
@@ -80,7 +85,7 @@ class VisitaService {
 				return json_encode(array('error' => $e->getMessage()));
 		  }
 		}
-		public function getIdJornada($fecha_creacion) {
+	public function getIdJornada($fecha_creacion) {
 
 				$datetime = new DateTime($fecha_creacion);
 				$hora = $datetime->format('H');
@@ -95,13 +100,13 @@ class VisitaService {
 					return $row['jornada'];
 				}			
 		}
-		public function getIdsVisita($tipo,$titulo) {
+	public function getIdsVisita($tipo,$titulo) {
 
 						switch($tipo) {
 						case "tipo_visita":
-							$from = 'upc_tipos_visitas AS R';
-							$select = 'R.id_tipo AS id';
-							$where = 'R.titulo = "'.$titulo.'"';				
+							$from = 'upc_tipo_prestamos AS R';
+							$select = 'R.id';
+							$where = 'R.tipo = "'.$titulo.'"';				
 							$sql = sql_select($select, $from, $where);								 
 						break;
 						case "programa":
@@ -123,7 +128,7 @@ class VisitaService {
 					return $row['id'];
 				}			
 		}
-		public function getVisitas() {
+	public function getVisitas() {
 		  $from = 'upc_libros_visita AS LV
 					  INNER JOIN upc_tipos_visitas AS TV ON LV.tipo_visita = TV.id_tipo
 					  INNER JOIN upc_tipo_jornada AS J ON LV.jornada = J.id_tipo

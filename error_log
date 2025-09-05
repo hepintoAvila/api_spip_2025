@@ -1,0 +1,167 @@
+[04-Sep-2025 18:09:15 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 158
+[04-Sep-2025 18:11:01 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 159
+[04-Sep-2025 18:13:39 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:13:39 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:13:39 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:13:39 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:13:39 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:13:39 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:14:33 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:14:33 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:14:33 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:14:33 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:14:33 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 18:14:33 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:30:16 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:30:16 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:30:16 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:30:16 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:30:16 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:30:16 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:34:33 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:34:33 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:34:33 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:34:33 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:34:33 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[04-Sep-2025 22:34:33 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 07:52:18 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 07:52:18 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:52:18 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:52:18 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 07:52:30 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 07:52:30 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:52:30 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:52:30 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 07:52:51 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 07:52:51 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:52:51 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:52:51 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 07:53:04 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 07:53:04 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:53:04 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 07:53:04 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 07:53:18 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 07:53:18 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 07:53:18 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 07:53:18 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 07:53:18 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 07:53:18 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:11:03 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 08:11:03 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 08:11:03 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 08:11:03 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 08:11:08 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 08:11:08 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 08:11:08 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 08:11:08 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 08:14:20 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 08:14:20 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 08:14:20 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 08:14:20 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 08:23:49 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:23:49 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:23:49 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:23:49 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:23:49 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:23:49 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:28:54 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:28:54 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:28:54 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:28:54 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:28:54 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:28:54 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:29:14 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:29:14 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:29:14 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:29:14 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:29:14 America/Bogota] PHP Warning:  Undefined array key "total_registros" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 08:29:14 America/Bogota] PHP Warning:  Undefined array key "" in /home/lacasa12/public_html/api2025/ecrire/admin_reportes/VisitaService.php on line 163
+[05-Sep-2025 09:05:51 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 09:05:51 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 09:05:51 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 09:05:51 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16
+[05-Sep-2025 09:05:56 America/Bogota] PHP Warning:  Undefined array key "Authorization" in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 43
+[05-Sep-2025 09:05:56 America/Bogota] PHP Warning:  Undefined variable $username in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 09:05:56 America/Bogota] PHP Warning:  Undefined variable $password in /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php on line 53
+[05-Sep-2025 09:05:56 America/Bogota] PHP Fatal error:  Uncaught Exception: Login y contraseña son requeridos in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php:16
+Stack trace:
+#0 /home/lacasa12/public_html/api2025/ecrire/authorization/credentials.php(54): Authenticator->authenticate()
+#1 /home/lacasa12/public_html/api2025/ecrire/exec/admin_reportes.php(28): authorization_credentials_dist()
+#2 /home/lacasa12/public_html/api2025/ecrire/public.php(271): exec_admin_reportes_dist(Array, Array)
+#3 /home/lacasa12/public_html/api2025/ecrire/inc_version.php(550): include('/home/lacasa12/...')
+#4 /home/lacasa12/public_html/api2025/spip.php(19): include_once('/home/lacasa12/...')
+#5 /home/lacasa12/public_html/api2025/index.php(3): include('/home/lacasa12/...')
+#6 {main}
+  thrown in /home/lacasa12/public_html/api2025/ecrire/authorization/Authenticator.php on line 16

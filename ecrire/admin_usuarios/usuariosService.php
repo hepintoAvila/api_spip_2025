@@ -6,13 +6,41 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 	
 class UsuarioService {
 	private $apis;
+	private $estudiantes;
     public function __construct() {
      $this->apis = new General('api_auteurs');
+     $this->estudiantes = new General('upc_estudiantes');
 	}
 	public function addUsuarios($chartic){
-		$apis->guardarDatos($chartic);
-	}	
-
+		$this->apis->guardarDatos($chartic);
+	}
+	private function getDocumento($documento) {
+        $sql = sql_select('id', 'upc_estudiantes', 'PEGE_DOCUMENTOIDENTIDAD = ' . sql_quote($documento));
+        $row = sql_fetch($sql);
+        if (!$row) {
+           return '0';
+        }
+        return $row['id'];
+    }	
+	public function addEstudiante($data){
+			if (!is_array($data)) {
+            throw new Exception('El parámetro $chartic debe ser un array');
+        }	
+				$id = $this->getDocumento($data['documento']);
+				if(intval($id)==0){
+				$chartic['MATE_CODIGOMATERIA']='';
+				$chartic['GRUP_NOMBRE']='';
+				$chartic['PEGE_DOCUMENTOIDENTIDAD']=$data['documento'];
+				$chartic['ESTUDIANTE']=$data['documento'];
+				$chartic['MATE_NOMBRE']='';
+				$chartic['PEGE_MAIL']='';
+				$chartic['PROG_NOMBRE']=$data['programa'];
+				$chartic['PEGE_TELEFONOCELULAR']='';
+				$chartic['PEGE_TELEFONO']='';
+				$chartic['PENG_EMAILINSTITUCIONAL']='';
+				$this->estudiantes->guardarDatos($chartic);
+				}
+	}
 	public function updateUsuarios($data){
 			if (!is_array($data)) {
 				throw new Exception('El parámetro $data debe ser un array');
@@ -79,6 +107,7 @@ class UsuarioService {
 		  }
 		}
 		public function getEstudiantes($data) {
+			
 		  $from = 'upc_estudiantes AS R';
 		  $select = 'R.id as id_estudiante, R.PEGE_DOCUMENTOIDENTIDAD AS documento,
 		  R.ESTUDIANTE AS nombres,R.PENG_EMAILINSTITUCIONAL as email,R.PROG_NOMBRE as programa,R.PEGE_TELEFONOCELULAR as celular';
@@ -90,7 +119,6 @@ class UsuarioService {
 			while ($row = sql_fetch($sql)) {
 				$usuarios[] = $row;
 			}
-			
 			$datosusuarios = array('Estudiantes' => array());
 			foreach ($usuarios as $val) {
 			  $datosusuarios['Estudiantes'][] = array(

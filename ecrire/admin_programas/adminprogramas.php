@@ -30,33 +30,33 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 		
 		
-function admin_turnos_adminturnos_dist($opcion,$data=array(),$resdataCredencials=array()){
-				include_spip('ecrire/admin_turnos/turnosService');
-				//INSTANCIAS INVOLUNCRADAS
-
-				$app_turnosService = new TurnosService($resdataCredencials);	
-		 
-		switch ($opcion) {
-			case 'consulta_turnos_documento':
-				$app_turnosService->getTurnosEstudiante($data);						
-				break;
-			case 'consulta_turnos':
-				$app_turnosService->getTurnos();						
-				break;
-			case 'add_turno':
-				$app_turnosService->addTurnos($data);
-				//$app_turnosService->getTurnosEstudiante($data);					
-				break;			
-			case 'update_turno':
-					$app_turnosService->updateTurnos($data);
-					$app_turnosService->getTurnos();
-				break;			
-			case 'delete_turnos':
-					$app_turnosService->deleteTurnos($data);
-					$app_turnosService->getTurnos();		
-			break;
-		}
+function admin_programas_adminprogramas_dist($opcion,$data=array(),$resdataCredencials=array()){
+	
 
 	
+				include_spip('ecrire/admin_programas/programaService');
+				//INSTANCIAS INVOLUNCRADAS
+
+				$app_progrService = new ProgramaService();
+		
+		switch ($opcion) {
+			case 'consultar_programas':
+				$resultado =$app_progrService->getPrograma();					
+				break;
+			case 'add_programas':
+					$app_progrService->addPrograma($data);
+					$app_progrService->getPrograma();					
+				break;			
+			case 'update_programas':
 		 
+					$app_progrService->updatePrograma($data);
+					$app_progrService->getPrograma();
+				break;			
+			case 'delete_programas':
+					$app_progrService->deletePrograma($data);
+					$app_progrService->getPrograma();		
+			break;
+		}
+ 
+	
 }

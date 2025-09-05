@@ -81,6 +81,7 @@ class PermisoService {
         
         try {
             $idTipo = $this->getIdTipo();
+			 
             $roles = $this->getRoles($idTipo);
             $permisos = $this->formatPermisos($roles);
             return $permisos;
@@ -94,6 +95,7 @@ class PermisoService {
     }
 
     private function getIdTipo() {
+		
         $sql = sql_select('idRol', 'apis_roles', 'tipo = ' . sql_quote($this->aut['tipo']));
         if (!$sql) {
             throw new Exception('Error al consultar roles');

@@ -38,9 +38,10 @@ function admin_login_adminlogin_dist($get){
 		$session_login=$_SERVER['PHP_AUTH_USER'];
 		$session_password=$_SERVER['PHP_AUTH_PW'];
 		
+		 
 		include_spip('inc/auth');
 		$aut = auth_identifier_login($session_login, $session_password);
-				
+			
 				include_spip('ecrire/admin_login/loginService');
 				include_spip('ecrire/admin_menu/menuService');
 				include_spip('ecrire/admin_permisos/permisosService');
@@ -51,12 +52,10 @@ function admin_login_adminlogin_dist($get){
 				$app_permisosService = new PermisoService($aut);	
 				// array
 				$chartic=array();
-		 
+ 
 		switch ($opcion) {
 			case 'login_auth':
-
-			print_r($opcion);
-				/*
+			/*
 			$auth0 = new Auth0([
 				'domain' => $config['domain'],
 				'client_id' => $config['client_id'],
@@ -74,10 +73,10 @@ function admin_login_adminlogin_dist($get){
 			$auth0 = new Auth0($config);
 
 			$auth0->login();
-			//$token = $auth0->getAccessToken();
-			//$token = $auth0->decode($token);
+			$token = $auth0->getAccessToken();
+			$token = $auth0->decode($token);
 			
-			//$userInfo = $auth0->getUser();
+			$userInfo = $auth0->getUser();
 			*/
 			break;
 			case 'login':
@@ -103,6 +102,5 @@ function admin_login_adminlogin_dist($get){
 		break;
 				 
 		}
-
-	
+ 
 }

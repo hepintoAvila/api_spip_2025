@@ -54,14 +54,8 @@ function admin_visitas_adminvisitas_dist($opcion=string,$data=array()){
 				echo $var;
 				break;
 			case 'add_visitas':
-				
-				$chartic['identificacion']=$data['identificacion'];
-				$chartic['tipo_visita']=$app_visitaService->getIdsVisita('tipo_visita',$data['tipo_visita']);
-				$chartic['jornada']=$app_visitaService->getIdJornada($data['fecha_creacion']);
-				$chartic['ubicacion']=$app_visitaService->getIdsVisita('ubicacion',$data['ubicacion']);
-				$chartic['programa']=$app_visitaService->getIdsVisita('programa',$data['programa']);
-				
-				$app_visitaService->addVisitas($chartic);				
+			
+				$app_visitaService->addVisitas($data);				
 				$resultado =$app_visitaService->getVisitas();					
 				$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de Visitas')); 	
 				echo $var;
