@@ -45,7 +45,6 @@ function admin_turnos_adminturnos_dist($opcion,$data=array(),$resdataCredencials
 				break;
 			case 'add_turno':
 				$app_turnosService->addTurnos($data);
-				//$app_turnosService->getTurnosEstudiante($data);					
 				break;			
 			case 'update_turno':
 					$app_turnosService->updateTurnos($data);
@@ -55,6 +54,9 @@ function admin_turnos_adminturnos_dist($opcion,$data=array(),$resdataCredencials
 					$app_turnosService->deleteTurnos($data);
 					$app_turnosService->getTurnos();		
 			break;
+			case 'add_turno_aguachica':
+				$app_turnosService->addTurnosAguachica($data);
+				break;			
 		}
 
 	

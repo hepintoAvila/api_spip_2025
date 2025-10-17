@@ -10,8 +10,6 @@
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
 
-
-
 if (!defined('_ECRIRE_INC_VERSION')) {
     return;
 }
@@ -58,35 +56,25 @@ class ApiKeyManager extends PagesSecurity {
 			// Si ya existe, actualiza la clave secreta
 			$secretKey = $this->getSecretKey($userId);
 			if (strlen($secretKey) !== 64) {
-				// La clave secreta no tiene la longitud correcta
-				// Puedes generar una nueva clave secreta y almacenarla
-				$secretKey = $this->asignarSecretKey($userId);
+				$secretKey = $this->generateSecretKey();
+				$chartic['user_id'] = $userId;
+				$chartic['secret_key'] = $secretKey;
+				$this->updateApiKey($chartic, 'user_id', $userId);
+			} else {
+				$chartic['user_id'] = $userId;
+				$chartic['secret_key'] = $secretKey;
+				//$this->updateApiKey($chartic, 'user_id', $userId);
 			}
-			
-			
-			//echo "Contenido de la clave secreta: " . $secretKey . "\n";
-			
-			$chartic['user_id'] = $userId;
-			$chartic['secret_key'] = $secretKey;
-			$this->updateApiKey($chartic, 'user_id', $userId);
 			$AppKey = $this->encryptData($userId, $secretKey);
-			//echo "Longitud de la clave secreta: " . $AppKey . "\n";
 			return $AppKey;		
 		} else {
 			// Si no existe, crea una nueva clave secreta
-			$secretKey = $this->getSecretKey($userId);
-			if (strlen($secretKey) !== 64) {
-				// La clave secreta no tiene la longitud correcta
-				// Puedes generar una nueva clave secreta y almacenarla
-				$secretKey = $this->asignarSecretKey($userId);
-			}
-			//echo "Longitud de la clave secreta: " . strlen($secretKey) . "\n";
-			//echo "Contenido de la clave secreta: " . $secretKey . "\n";
+			$secretKey = $this->generateSecretKey();
+			$chartic['id'] = $userId;
 			$chartic['user_id'] = $userId;
 			$chartic['secret_key'] = $secretKey;
 			$id = $this->addApiKey($chartic);
 			$AppKey = $this->encryptData($userId, $secretKey);
-			//echo "Longitud de la clave secreta: " . $AppKey . "\n";
 			return $AppKey;		
 		}
 	}
@@ -189,15 +177,15 @@ class ApiKeyManager extends PagesSecurity {
 					 
 						try {
 						$headers = getallheaders();
-					
+					    //print_r($headers);
 						$apisKey = new ApiKeyManager();
 						$id_auteur = $data['id_auteur'];
 						
 						
-						$testData = $headers['x-sices-api-apikey'];
+						$testData = $headers['X-Sices-Api-Apikey'];
 						$apisKey = new ApiKeyManager();
 						$id_auteur = $data['id_auteur'];
-						$testData = $headers['x-sices-api-apikey'];
+						$testData = $headers['X-Sices-Api-Apikey'];
 						$testSecretKey = $this->getSecretKey($id_auteur);
 						$encryptedTestData = $this->encryptData($testData, $testSecretKey);
 						$decryptedTestData = $this->decryptData($encryptedTestData, $testSecretKey);

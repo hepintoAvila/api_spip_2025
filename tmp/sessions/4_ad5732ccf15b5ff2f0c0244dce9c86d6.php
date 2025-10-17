@@ -1,0 +1,30 @@
+<?php
+$GLOBALS['visiteur_session']['id_auteur'] = 4;
+$GLOBALS['visiteur_session']['nom'] = 'virtualteca';
+$GLOBALS['visiteur_session']['bio'] = '';
+$GLOBALS['visiteur_session']['email'] = 'virtualteca@unicesar.edu.co';
+$GLOBALS['visiteur_session']['nom_site'] = '';
+$GLOBALS['visiteur_session']['url_site'] = '';
+$GLOBALS['visiteur_session']['login'] = 'virtualteca';
+$GLOBALS['visiteur_session']['statut'] = '0minirezo';
+$GLOBALS['visiteur_session']['webmestre'] = 'non';
+$GLOBALS['visiteur_session']['maj'] = '2025-10-16 09:01:14';
+$GLOBALS['visiteur_session']['pgp'] = '';
+$GLOBALS['visiteur_session']['en_ligne'] = '2024-01-18 01:01:01';
+$GLOBALS['visiteur_session']['prefs'] = '0minirezo';
+$GLOBALS['visiteur_session']['cookie_oubli'] = '1865110264689e80feaeb751.02830082';
+$GLOBALS['visiteur_session']['source'] = 'spip';
+$GLOBALS['visiteur_session']['lang'] = 'es';
+$GLOBALS['visiteur_session']['imessage'] = 'oui';
+$GLOBALS['visiteur_session']['tipo'] = 'Hemeroteca';
+$GLOBALS['visiteur_session']['entidad'] = 'cb_1';
+$GLOBALS['visiteur_session']['id_rol'] = '3';
+$GLOBALS['visiteur_session']['status'] = 'Activo';
+$GLOBALS['visiteur_session']['clave'] = '123456';
+$GLOBALS['visiteur_session']['tipo_usuario'] = 'Aulavirtual';
+$GLOBALS['visiteur_session']['id_aspirante'] = '3';
+$GLOBALS['visiteur_session']['auth'] = 'spip';
+$GLOBALS['visiteur_session']['hash_env'] = '87efec3c20ab83689eae42588f93bb16';
+$GLOBALS['visiteur_session']['ip_change'] = false;
+$GLOBALS['visiteur_session']['date_session'] = 1760623338;
+?>

@@ -10,10 +10,19 @@ class ReporteService {
 		try {
 			$totalRegistros = $this->getTotalRegistros();
 			$totalEstudiantes = $this->getTotalEstudiantes();
-			$porcentaje = $this->calcularPorcentaje($totalRegistros, $totalEstudiantes);
+			$porcentaje = round(($totalEstudiantes / $totalRegistros) * 100, 3);
 			$totaMes = $this->getTotalMes();
 			$resProgramas = $this->getDataProgramas();
-		 
+			$totalManana = $this->getTotalRegistrosTurno('total_mañana');
+			$totalTarde = $this->getTotalRegistrosTurno('total_tarde');
+			$totalNocturna = $this->getTotalRegistrosTurno('total_nocturna');
+			$totaljornada = $totalManana+$totalTarde+$totalNocturna;
+			
+			$porcJornada= $this->calcularPorcentaje(intval($totalRegistros),intval($totaljornada));
+			$porcManana= $this->calcularPorcentaje(intval($totalRegistros),intval($totalManana));
+			$porcTarde= $this->calcularPorcentaje(intval($totalRegistros),intval($totalTarde));
+			$porcNocturna= $this->calcularPorcentaje(intval($totalRegistros),intval($totalNocturna));
+
 			$datosWidget = [
 				'chartwidget' => [
 					[
@@ -27,19 +36,19 @@ class ReporteService {
 						],
 						'colors' => ['#d4212c'],
 						'data' => $this->getData('total_registros'),
-						'dataTotales' => array(intval($this->calcularPorcentajeTurno($totalRegistros,'total_mañana')),intval($this->calcularPorcentajeTurno($totalRegistros,'total_tarde')),intval($this->calcularPorcentajeTurno($totalRegistros,'total_nocturna')),intval($totalRegistros)),
+						'dataTotales' => array(round($porcJornada, 3),round($porcManana, 3),round($porcTarde, 3),round($porcNocturna, 3)),
 						'dataColors' => array('#f6aa38','#2f9dd8','#a43ac1','#d4212c'),
 						'dataMeses' => array($totaMes),
 						'dataProgramas' => $resProgramas,
-					],
+					],					
 					[
 						'title' => 'Mañana',
 						'description' => 'Visitas Aulavirtual',
-						'stats' => $this->getTotalRegistrosTurno('total_mañana'),
+						'stats' => $totalManana,
 						'trend' => [
-							'textClass' => $this->getTotalRegistrosTurno('total_mañana') < 200 ? 'text-danger' : 'text-success',
-							'icon' => $this->getTotalRegistrosTurno('total_mañana') < 200 ? 'mdi mdi-arrow-down-bold' : 'mdi mdi-arrow-up-bold',
-							'value' => $this->calcularPorcentajeTurno($totalRegistros, 'total_mañana') . '%'
+							'textClass' => $totalManana < 200 ? 'text-danger' : 'text-success',
+							'icon' => $totalManana < 200 ? 'mdi mdi-arrow-down-bold' : 'mdi mdi-arrow-up-bold',
+							'value' => $porcManana . '%'
 						],
 						'colors' => ['#f6aa38'],
 						'data' => $this->getData('porcentaje_mañana')
@@ -47,11 +56,11 @@ class ReporteService {
 					[
 						'title' => 'Tarde',
 						'description' => 'Visitas Aulavirtual',
-						'stats' => $this->getTotalRegistrosTurno('total_tarde'),
+						'stats' => $totalTarde,
 						'trend' => [
-							'textClass' => $this->getTotalRegistrosTurno('total_tarde') < 200 ? 'text-danger' : 'text-success',
-							'icon' => $this->getTotalRegistrosTurno('total_tarde') < 200 ? 'mdi mdi-arrow-down-bold' : 'mdi mdi-arrow-up-bold',
-							'value' => $this->calcularPorcentajeTurno($totalRegistros, 'total_tarde') . '%'
+							'textClass' => $totalTarde < 200 ? 'text-danger' : 'text-success',
+							'icon' => $totalTarde < 200 ? 'mdi mdi-arrow-down-bold' : 'mdi mdi-arrow-up-bold',
+							'value' => $porcTarde . '%'
 						],
 						'colors' => ['#2f9dd8'],
 						'data' => $this->getData('porcentaje_tarde')
@@ -59,33 +68,31 @@ class ReporteService {
 					[
 						'title' => 'Nocturna',
 						'description' => 'Visitas Aulavirtual',
-						'stats' => $this->getTotalRegistrosTurno('total_nocturna'),
+						'stats' => $totalNocturna,
 						'trend' => [
-							'textClass' => $this->getTotalRegistrosTurno('total_nocturna') < 200 ? 'text-danger' : 'text-success',
-							'icon' => $this->getTotalRegistrosTurno('total_nocturna') < 200 ? 'mdi mdi-arrow-down-bold' : 'mdi mdi-arrow-up-bold',
-							'value' => $this->calcularPorcentajeTurno($totalRegistros, 'total_nocturna') . '%'
+							'textClass' => $totalNocturna < 200 ? 'text-danger' : 'text-success',
+							'icon' => $totalNocturna < 200 ? 'mdi mdi-arrow-down-bold' : 'mdi mdi-arrow-up-bold',
+							'value' => $porcNocturna . '%'
 						],
 						'colors' => ['#a43ac1'],
 						'data' => $this->getData('porcentaje_nocturna')
 					]
 				]
 			];
-			 
-
 				if (!empty($datosWidget['chartwidget'])) {
 					return $datosWidget;
 				} else {
 					return array('chartwidget'=>array());
 				}
-				 
 		} catch (Exception $e) {
 			return json_encode(['error' => $e->getMessage()]);
 		}
+		
 	}
 
 	private function getTotalRegistros() {
-		$row = sql_fetsel("SUM(R.total_registros) AS TOTALPRESTADOS", "upc_resumen_turnos AS R", "");
-		return $row['TOTALPRESTADOS'];
+	  $resultado = sql_fetsel("SUM(R.total_registros) AS TOTALPRESTADOS", "upc_resumen_turnos AS R", "");
+	  return $resultado['TOTALPRESTADOS'];
 	}
 
 	private function getTotalEstudiantes() {
@@ -98,14 +105,12 @@ class ReporteService {
 			$res = sql_select('SUM(total_registros) as totales,mes', "upc_resumen_turnos GROUP BY mes", "");
 		$data = [];
 		while ($r = sql_fetch($res)) {
-			$data[$r['mes']] = $r['totales'];
+			$data[$r['mes']] = round($r['totales'],3);
 		}
 		return $data;
 	}
 
-	private function calcularPorcentaje($totalRegistros, $totalEstudiantes) {
-		return round(($totalRegistros / $totalEstudiantes) * 100, 3);
-	}
+ 
 	
 	private function getDataProgramas() {
 	$res = sql_select('E.PROG_NOMBRE, 
@@ -122,7 +127,7 @@ GROUP BY E.PROG_NOMBRE, MONTH(R.fecha_creacion), determinar_turno(TIME(R.fecha_c
 			return $data;
 		}	
 	private function getData($campo) {
-		$res = sql_select($campo, "upc_resumen_turnos", "");
+		$res = sql_select("".$campo."", "upc_resumen_turnos", "");
 		$data = [];
 		while ($r = sql_fetch($res)) {
 			$data[] = $r[$campo];
@@ -131,15 +136,18 @@ GROUP BY E.PROG_NOMBRE, MONTH(R.fecha_creacion), determinar_turno(TIME(R.fecha_c
 	}
 
 	private function getTotalRegistrosTurno($campo) {
-		$row = sql_fetsel("SUM(R.$campo) AS TOTAL", "upc_resumen_turnos AS R", "");
-		return $row['TOTAL'];
+		 $row = sql_fetsel("SUM($campo) AS TOTAL", "upc_resumen_turnos AS R", "");
+		 return $row['TOTAL'];
 	}
-	private function calcularPorcentajeTurno($totalRegistros, $campo) {
-		$totalRegistrosTurno = $this->getTotalRegistrosTurno($campo);
+	private function calcularPorcentaje($totalRegistros,$totalRegistrosTurno) {
+		 
 		if ($totalRegistros == 0) {
 			return 0;
 		}
-		return round(($totalRegistrosTurno / $totalRegistros) * 100, 3);
+		if ($totalRegistrosTurno == 0) {
+			return 0;
+		}
+		return round((intval($totalRegistrosTurno) / intval($totalRegistros)) * 100, 3);
 	}
 	//APLICA PARA LIBRO DE Visitas
 	

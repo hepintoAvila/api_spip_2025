@@ -1,0 +1,29 @@
+<?php
+$GLOBALS['visiteur_session']['id_auteur'] = 81;
+$GLOBALS['visiteur_session']['nom'] = 'jotat007';
+$GLOBALS['visiteur_session']['bio'] = '';
+$GLOBALS['visiteur_session']['email'] = 'jotat007@gmail.com';
+$GLOBALS['visiteur_session']['nom_site'] = '';
+$GLOBALS['visiteur_session']['url_site'] = '';
+$GLOBALS['visiteur_session']['login'] = 'jotat007@gmail.com';
+$GLOBALS['visiteur_session']['statut'] = '0minirezo';
+$GLOBALS['visiteur_session']['webmestre'] = 'non';
+$GLOBALS['visiteur_session']['maj'] = '2025-09-03 13:32:41';
+$GLOBALS['visiteur_session']['pgp'] = '';
+$GLOBALS['visiteur_session']['en_ligne'] = '2025-08-21 08:55:16';
+$GLOBALS['visiteur_session']['prefs'] = '0minirezo';
+$GLOBALS['visiteur_session']['cookie_oubli'] = '292509642672ef46fd78962.02106921';
+$GLOBALS['visiteur_session']['source'] = 'spip';
+$GLOBALS['visiteur_session']['lang'] = 'es';
+$GLOBALS['visiteur_session']['imessage'] = 'oui';
+$GLOBALS['visiteur_session']['tipo'] = 'Administrador';
+$GLOBALS['visiteur_session']['entidad'] = 'cb_1';
+$GLOBALS['visiteur_session']['id_rol'] = '1';
+$GLOBALS['visiteur_session']['status'] = 'Activo';
+$GLOBALS['visiteur_session']['clave'] = 'jotat007';
+$GLOBALS['visiteur_session']['tipo_usuario'] = 'Administrador';
+$GLOBALS['visiteur_session']['auth'] = 'spip';
+$GLOBALS['visiteur_session']['hash_env'] = '1b4ae3330e13f5bb277c43c7db9de842';
+$GLOBALS['visiteur_session']['ip_change'] = false;
+$GLOBALS['visiteur_session']['date_session'] = 1756924362;
+?>

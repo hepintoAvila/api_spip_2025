@@ -85,14 +85,8 @@ function exec_admin_usuarios_dist($post,$get){
 			 exit;
 		}
 		 $adminusuarios = charger_fonction('adminusuarios', 'admin_usuarios');
-		 $json = $adminusuarios($opcion,$data);
-		if (!isset($json['status']) || !isset($json['type']) || !isset($json['data']) || !isset($json['message'])) {
-			die(json_encode([
-				'status' => 'error',
-				'code' => 400,
-				'message' => 'Estructura JSON inválida'
-			]));
-		}
+		 $json = $adminusuarios($opcion, $data,$resdataCredencials);
+		
                  		
 		
 }													

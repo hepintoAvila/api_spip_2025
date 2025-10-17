@@ -15,10 +15,42 @@ class TurnosService {
           $this->credencials= $credencials;
           $this->apis= new General('upc_turnos');
           $this->apis_pcs= new General('upc_pcs');
+          $this->apis_pcs_aguachica= new General('aguachica_equipos');
+          $this->apis_aguachica= new General('aguachica_turnos');
+          $this->apis_aulas= new General('upc_aulas_prestamos');
           $this->id_rol= $credencials['id_rol'];
           
      }
-public function addTurnos($data){
+	public function updatePcAguachica($data){
+			if (!is_array($data)) {
+				throw new Exception('El parámetro $data debe ser un array');
+			}
+
+			// Validar que el id_turno esté presente en el array
+			if (!isset($data['id_pc'])) {
+				throw new Exception('El parámetro id_turno es obligatorio');
+			}
+
+			// Crear el array de datos para actualizar
+			$chartic = array();
+			foreach ($data as $key => $value) {
+				// Ignorar el id_turno ya que se utiliza para la condición de actualización
+				if ($key !== 'id_pc') {
+					$chartic[$key] = $value;
+				}
+			}
+
+			try {
+				$this->apis_pcs_aguachica->actualizarDatos($chartic, 'id_pc', $data['id_pc']);
+			} catch (Exception $e) {
+				$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+				header('Content-Type: application/json');
+				http_response_code(401);
+				echo json_encode($records);
+				exit;
+			}
+		}     
+	public function addTurnosAguachica($data){
 		
 		$chartic=array();
 		if (!is_array($data)) {
@@ -33,9 +65,74 @@ public function addTurnos($data){
 		);
 	   
 		try {
+			
+			$chartic_pc=array(
+		      'estado' => 'Ocupado',
+		      'id_pc' => $data['pc']
+			);
+			$this->updatePcAguachica($chartic_pc);
+			$this->getTurnosEstudiante($data);	
+			$idPc =$this->apis_aguachica->guardarDatos($chartic);
+			
+		} catch (Exception $e) {
+			$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+			header('Content-Type: application/json');
+			http_response_code(401);
+			echo json_encode($records);
+			exit; // Agrega esta línea para detener la ejecución del script
+		}
+}
+	public function addTurnosAulas($data){
 		
-			 
-			 
+		$chartic=array();
+		if (!is_array($data)) {
+            throw new Exception('El parámetro $data debe ser un array');
+        }
+		 						
+		    $start = DateTime::createFromFormat('Y-m-d H:i:s', $data['start']);
+			$end = DateTime::createFromFormat('Y-m-d H:i:s', $data['end']);
+
+			if (!$start || !$end) {
+				throw new Exception('Formato de fecha inválido');
+			}
+
+			$chartic = array(
+				'title' => $data['title'],
+				'start' => $start->format('Y-m-d H:i:s'),
+				'end' => $end->format('Y-m-d H:i:s'),
+				'documento' => $data['documento'],
+				'className' => $this->getSalon($data['title']),
+			);
+		try {
+			$idPc =$this->apis_aulas->guardarDatos($chartic);
+		} catch (Exception $e) {
+			$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+			header('Content-Type: application/json');
+			http_response_code(401);
+			echo json_encode($records);
+			exit; // Agrega esta línea para detener la ejecución del script
+		}
+} 
+	public function deleteAulas($data){
+		sql_delete("upc_turnos","id_turno=" . intval($data['id_turno']));
+	}
+	
+	public function addTurnos($data){
+		
+		$chartic=array();
+		if (!is_array($data)) {
+            throw new Exception('El parámetro $data debe ser un array');
+        }
+									
+		$chartic=array(
+		  'pc' => $data['pc'],
+		  'documento' => $data['documento'],
+		  'tipo_prestamo' => $data['tipo_prestamo'],
+		  'ubicacion' =>intval($this->id_rol),
+		);
+	   
+		try {
+
 			$from = 'upc_pcs';
 			$select = 'id_pc';
 			$where = 'numero = "'.intval($data['pc']).'"';
@@ -49,8 +146,8 @@ public function addTurnos($data){
 		      'id_pc' => $id_pc
 			);
 			$this->updatePc($chartic_pc);
-			$this->getTurnosEstudiante($data);
-			$idPc =$this->apis->guardarDatos($chartic);			
+			$this->getTurnosEstudiante($data);	
+			$idPc =$this->apis->guardarDatos($chartic);
 			
 		} catch (Exception $e) {
 			$records['data'] = array('status' => 401, 'error' => $e->getMessage());
@@ -60,6 +157,40 @@ public function addTurnos($data){
 			exit; // Agrega esta línea para detener la ejecución del script
 		}
 }
+	
+	public function updateTurnosAulas($data){
+			if (!is_array($data)) {
+				throw new Exception('El parámetro $data debe ser un array');
+			}
+		    $start = DateTime::createFromFormat('Y-m-d H:i:s', $data['start']);
+			$end = DateTime::createFromFormat('Y-m-d H:i:s', $data['end']);
+
+			if (!$start || !$end) {
+				throw new Exception('Formato de fecha inválido');
+			}
+
+			$chartic = array(
+				'title' => $data['title'],
+				'start' => $start->format('Y-m-d H:i:s'),
+				'end' => $end->format('Y-m-d H:i:s'),
+				'documento' => $data['documento'],
+				'className' => $this->getSalon($data['title']),
+			);			
+			// Validar que el id_turno esté presente en el array
+			if (!isset($data['id'])) {
+				throw new Exception('El parámetro id_turno es obligatorio');
+			}
+			try {
+				$this->apis_aulas->actualizarDatos($chartic, 'id', $data['id']);
+			} catch (Exception $e) {
+				$records['data'] = array('status' => 401, 'error' => $e->getMessage());
+				header('Content-Type: application/json');
+				http_response_code(401);
+				echo json_encode($records);
+				exit;
+			}
+		}
+		
 	public function updatePc($data){
 			if (!is_array($data)) {
 				throw new Exception('El parámetro $data debe ser un array');
@@ -118,8 +249,8 @@ public function addTurnos($data){
 				exit;
 			}
 		}
-	public function deleteTurnos($data){
-		sql_delete("upc_turnos","id_turno=" . intval($data['id_turno']));
+	public function deleteTurnosAulas($data){
+		sql_delete("upc_aulas_prestamos","id=" . intval($data['id']));
 	}
 	public function getTurnosEstudiante($data) {
 		  $from = 'upc_turnos t 
@@ -182,8 +313,25 @@ public function addTurnos($data){
 				return  $row['total'];
 			}   
 	}
-
-                         
+	private function getSalon($title) {
+    	$select = 'className'; 
+    	$from = 'upc_aulas';	
+    	$where = 'title="'.$title.'"';    
+         $sql = sql_select($select, $from, $where);
+ 		while ($row = sql_fetch($sql)) {
+				 return $row['className'];
+			}  
+		 		
+	}
+ private function getclassName($idSalon) {
+    	$select = 'className'; 
+    	$from = 'upc_aulas';	
+    	$where = 'id="'.$idSalon.'"';    
+         $sql = sql_select($select, $from, $where);
+ 		while ($row = sql_fetch($sql)) {
+				return  $row['className'];
+			}   
+	}                        
 	public function getTurnos() {
 		  $from = 'upc_turnos t 
 		  INNER JOIN
@@ -235,5 +383,6 @@ public function addTurnos($data){
 			return json_encode(array('error' => $e->getMessage()));
 		  }
 		}
-		
+	
+	
 }

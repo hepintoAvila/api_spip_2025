@@ -17,14 +17,15 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 function exec_admin_login_dist($get,$post){	
 		  $adminlogin = charger_fonction('adminlogin', 'admin_login');
-		 $json = $adminlogin($get);	
-		 if (!isset($json['status']) || !isset($json['type']) || !isset($json['data']) || !isset($json['message'])) {
+		  $json = $adminlogin($get,$post);
+		   
+		if (!isset($json['status']) || !isset($json['type']) || !isset($json['data']) || !isset($json['message'])) {
 			die(json_encode([
 				'status' => 'error',
 				'code' => 400,
 				'message' => 'Estructura JSON inválida'
 			]));
 		}
-		 
+		
 }													
 ?>

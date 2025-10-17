@@ -31,11 +31,10 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 		
 		
 		
-function admin_usuarios_adminusuarios_dist($opcion=string,$data=array()){
+function admin_usuarios_adminusuarios_dist($opcion=string,$data=array(),$resdataCredencials){
 				
 				include_spip('ecrire/admin_usuarios/usuariosService');
 				//INSTANCIAS INVOLUNCRADAS
-
 				$app_usuarioService = new UsuarioService();	
 				// array
 				$chartic=array();
@@ -48,6 +47,11 @@ function admin_usuarios_adminusuarios_dist($opcion=string,$data=array()){
 				break;
 				case 'consultar_estudiantes':
 				$resultado =$app_usuarioService->getEstudiantes($data);					
+			    echo json_encode($resultado);
+				 
+				break;
+			case 'add_usuario':
+				$resultado =$app_usuarioService->getEstudiantes($data);					
 				$var = var2js($resultado);
 				echo $var;
 				break;
@@ -55,7 +59,8 @@ function admin_usuarios_adminusuarios_dist($opcion=string,$data=array()){
 				$app_usuarioService->addEstudiante($data);					
 				$resultado =$app_usuarioService->getEstudiantes($data);					
 				$var = var2js($resultado);
-				echo $var;				
+				echo $var;
+			 				
 				break;			
 			case 'update_usuario':
 				/*
@@ -74,11 +79,33 @@ function admin_usuarios_adminusuarios_dist($opcion=string,$data=array()){
 					$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de usuario')); 	
 					echo $var;				
 			case 'actualizapass':
-					//$app_usuarioService->deleteMenu($data['id_visita']);
-					$resultado =$app_usuarioService->getUsuarios();					
-					$var = var2js(array('status'=>200,'type'=>'success','data'=>$resultado,'message'=>'Listado de usuario')); 	
+			    
+	                $new_pass = $data['pass'];
+					$id_auteur = $resdataCredencials['id_auteur'];
+					// Validar que el id_turno esté presente en el array
+        			if (!isset($resdataCredencials['id_auteur'])) {
+        				throw new Exception('El parámetro id_auteur es obligatorio');
+        			}
+					$cpass = array();
+					include_spip('inc/acces');
+					include_spip('auth/sha256.inc');
+					$htpass = generer_htpass($new_pass);
+					$alea_actuel = creer_uniqid();
+					$alea_futur = creer_uniqid();
+					$pass = spip_sha256($alea_actuel . $new_pass);
+					$cpass['pass'] = $pass;
+					$cpass['htpass'] = $htpass;
+					$cpass['alea_actuel'] = $alea_actuel;
+					$cpass['alea_futur'] = $alea_futur;
+					$cpass['low_sec'] = '';
+					include_spip('action/editer_auteur');
+					auteur_modifier($id_auteur, $cpass, true); //	
+					//$resultado =$app_usuarioService->getUsuarios();					
+					$var = var2js(array('status'=>200,'type'=>'success','data'=>array('Estudiantes'=>array()),'message'=>'El Password del usuario actualizado correctamente!')); 	
 					echo $var;				
 			break;
+		   
+			    
 		}
 
 	

@@ -37,9 +37,13 @@ function admin_reportes_adminreportes_dist($opcion,$data=array(),$resdataCredenc
 
 				$app_reporService = new ReporteController();	
 		switch ($opcion) {
+			case 'consulta_historicos':
+			$resultado =$app_reporService->getHistoricoPrograma($data);	
+			
+			break;
 			case 'consulta_general':
 				$resultado =$app_reporService->getChartWidget();					
-				break;
+			break;
 		}
 
 	

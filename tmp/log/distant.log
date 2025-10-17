@@ -1,2 +1,2 @@
-2025-08-14 20:06:54 190.131.227.147 (pid 45421) :Pri:ERREUR: Erreur connexion 110 Connection timed out
-2025-08-14 20:06:54 190.131.227.147 (pid 45421) :Pri:ERREUR: ECHEC init_http https://biblioteca.unicesar.edu.co/api2025/apiv1/../tmp/.ok
+2025-08-20 15:44:29 190.131.227.147 (pid 30421) :Pri:ERREUR: Erreur connexion 110 Connection timed out
+2025-08-20 15:44:29 190.131.227.147 (pid 30421) :Pri:ERREUR: ECHEC init_http https://biblioteca.unicesar.edu.co/api2025/tmp/.ok

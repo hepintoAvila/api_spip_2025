@@ -47,15 +47,23 @@ function admin_pcs_adminpcs_dist($opcion,$data=array(),$resdataCredencials=array
 					$app_pcService->getPcs();					
 					
 				break;			
+			case 'update_pcs_aguachica':
+					$app_pcService->updatePcsAguachica($data);
+					$app_pcService->getPcsAguachica();	
+				break;
 			case 'update_pcs':
 		 
 					$app_pcService->updatePcs($data);
 					$app_pcService->getPcs();
-				break;			
+				break;				
 			case 'delete_pcs':
 					$app_pcService->deletePcs($data);
 					$app_pcService->getPcs();		
-			break;
+			    break;
+			case 'consulta_pcs_aguachica':
+				$app_pcService->getPcsAguachica();					
+				break;			
+			
 		}
 
 	
